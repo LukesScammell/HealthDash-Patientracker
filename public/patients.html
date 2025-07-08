@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Patient Records</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Navigation Bar -->
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="patients.html">Patients</a>
+      <a href="providers.html">Providers</a>
+      <button onclick="toggleDarkMode()">🌓 Dark Mode</button>
+    </nav>
+
+    <h1>Patient Records</h1>
+
+    <!-- Add Patient Form -->
+    <form onsubmit="addPatientForm(event)">
+      <input name="first" placeholder="First Name" required>
+      <input name="last" placeholder="Last Name" required>
+      <input name="disease" placeholder="Disease" required>
+      <input name="medication" placeholder="Medication" required>
+      <input name="description" placeholder="Description" required>
+      <button type="submit">Add Patient</button>
+    </form>
+
+    <!-- Patient Table -->
+    <table id="patients-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>First</th>
+          <th>Last</th>
+          <th>Disease</th>
+          <th>Medication</th>
+          <th>Description</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <script src="script.js"></script>
+  <script>loadPatients();</script>
+</body>
+</html>

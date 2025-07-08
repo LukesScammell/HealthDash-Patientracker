@@ -1,0 +1,80 @@
+:root {
+  --bg-color: #f9f9f9;
+  --text-color: #333;
+  --table-header: #3498db;
+  --table-bg: white;
+}
+
+body.dark {
+  --bg-color: #1e1e1e;
+  --text-color: #ddd;
+  --table-header: #555;
+  --table-bg: #2a2a2a;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 20px;
+}
+
+nav {
+  background-color: var(--table-header);
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+nav a {
+  color: white;
+  margin-right: 20px;
+  text-decoration: none;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+button {
+  padding: 6px 12px;
+  margin-top: 10px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  background-color: var(--table-bg);
+}
+
+th, td {
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+th {
+  background-color: var(--table-header);
+  color: white;
+}
+
+tr:nth-child(even) {
+  background-color: #f4f4f4;
+}
+
+.dark tr:nth-child(even) {
+  background-color: #333;
+}
+
+input {
+  padding: 5px;
+  margin-right: 10px;
+}
