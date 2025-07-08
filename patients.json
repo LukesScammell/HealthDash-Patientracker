@@ -1,0 +1,72 @@
+[
+  {
+    "first": "Alice",
+    "last": "Smith",
+    "disease": "Asthma",
+    "medication": "Inhaler",
+    "description": "Uses inhaler daily"
+  },
+  {
+    "first": "Bob",
+    "last": "Johnson",
+    "disease": "Diabetes",
+    "medication": "Insulin",
+    "description": "Takes insulin every morning"
+  },
+  {
+    "first": "Carol",
+    "last": "Lee",
+    "disease": "Allergy",
+    "medication": "Antihistamines",
+    "description": "Allergic to peanuts"
+  },
+  {
+    "first": "David",
+    "last": "Nguyen",
+    "disease": "Depression",
+    "medication": "SSRIs",
+    "description": "Weekly sessions with therapist"
+  },
+  {
+    "first": "Ella",
+    "last": "Brown",
+    "disease": "Migraine",
+    "medication": "Triptans",
+    "description": "Triggered by stress and bright lights"
+  },
+  {
+    "first": "Frank",
+    "last": "Wilson",
+    "disease": "Flu",
+    "medication": "Antivirals",
+    "description": "Recovering; symptoms mild"
+  },
+  {
+    "first": "Grace",
+    "last": "Patel",
+    "disease": "Allergy",
+    "medication": "Antihistamines",
+    "description": "Seasonal grass allergy"
+  },
+  {
+    "first": "Henry",
+    "last": "Garcia",
+    "disease": "Depression",
+    "medication": "SSRIs",
+    "description": "Ongoing therapy and medication"
+  },
+  {
+    "first": "Isla",
+    "last": "Martinez",
+    "disease": "Flu",
+    "medication": "Antivirals",
+    "description": "Symptoms improving"
+  },
+  {
+    "first": "Jack",
+    "last": "Taylor",
+    "disease": "Allergy",
+    "medication": "Antihistamines",
+    "description": "Severe pollen allergy"
+  }
+]

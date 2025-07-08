@@ -1,0 +1,52 @@
+[
+  {
+    "name": "Dr. Sarah Thompson",
+    "specialty": "General Practitioner",
+    "contact": "s.thompson@gpclinic.co.nz"
+  },
+  {
+    "name": "Dr. Michael Chen",
+    "specialty": "Cardiologist",
+    "contact": "mchen@heartcentre.co.nz"
+  },
+  {
+    "name": "Dr. Zoe Russell",
+    "specialty": "Cardiologist",
+    "contact": "mchen@heartcentre.co.nz"
+  },
+  {
+    "name": "Dr. James Patel",
+    "specialty": "Pediatrician",
+    "contact": "j.patel@childhealth.nz"
+  },
+  {
+    "name": "Dr. Jake Patel",
+    "specialty": "Pediatrician",
+    "contact": "jpatel@childclinic.nz"
+  },
+  {
+    "name": "Dr. Emily Green",
+    "specialty": "Dermatologist",
+    "contact": "oclark@skinspecialist.nz"
+  },
+  {
+    "name": "Dr. Olivia Clark",
+    "specialty": "Dermatologist",
+    "contact": "oclark@skinspecialist.nz"
+  },
+  {
+    "name": "Dr. Priya Nair",
+    "specialty": "Neurologist",
+    "contact": "p.nair@neurocare.nz"
+  },
+  {
+    "name": "Dr. Rajesh Nair",
+    "specialty": "Neurologist",
+    "contact": "p.nair@neurocare.nz"
+  },
+  {
+    "name": "Dr. Liam Davis",
+    "specialty": "Orthopedic Surgeon",
+    "contact": "ldavis@bonefix.co.nz"
+  }
+]
