@@ -18,6 +18,7 @@
     "last": "Lee",
     "disease": "Allergy",
     "medication": "Antihistamines",
+    "medicationImage": "http://localhost:3000/images/medications/antihistamines.jpg",
     "description": "Allergic to peanuts"
   },
   {
@@ -25,6 +26,7 @@
     "last": "Nguyen",
     "disease": "Depression",
     "medication": "SSRIs",
+    "medicationImage": "http://localhost:3000/images/medications/ssri.jpg",
     "description": "Weekly sessions with therapist"
   },
   {
@@ -39,6 +41,7 @@
     "last": "Wilson",
     "disease": "Flu",
     "medication": "Antivirals",
+    "medicationImage": "http://localhost:3000/images/medications/antivirals.jpg",
     "description": "Recovering; symptoms mild"
   },
   {
@@ -46,6 +49,7 @@
     "last": "Patel",
     "disease": "Allergy",
     "medication": "Antihistamines",
+    "medicationImage": "http://localhost:3000/images/medications/antihistamines.jpg",
     "description": "Seasonal grass allergy"
   },
   {
@@ -53,6 +57,7 @@
     "last": "Garcia",
     "disease": "Depression",
     "medication": "SSRIs",
+    "medicationImage": "http://localhost:3000/images/medications/ssri.jpg",
     "description": "Ongoing therapy and medication"
   },
   {
@@ -60,6 +65,7 @@
     "last": "Martinez",
     "disease": "Flu",
     "medication": "Antivirals",
+    "medicationImage": "http://localhost:3000/images/medications/antivirals.jpg",
     "description": "Symptoms improving"
   },
   {
@@ -67,6 +73,7 @@
     "last": "Taylor",
     "disease": "Allergy",
     "medication": "Antihistamines",
+    "medicationImage": "http://localhost:3000/images/medications/antihistamines.jpg",
     "description": "Severe pollen allergy"
   }
 ]

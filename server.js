@@ -29,6 +29,7 @@ app.get('/api/patients', (req, res) => {
 
 app.post('/api/patients', (req, res) => {
   const patients = loadData(PATIENT_FILE);
+  console.log('New patient:', req.body); // optional
   patients.push(req.body);
   saveData(PATIENT_FILE, patients);
   res.json({ success: true });

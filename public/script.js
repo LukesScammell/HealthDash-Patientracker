@@ -1,4 +1,26 @@
 // script.js
+document.addEventListener('DOMContentLoaded', () => {
+  // Handle medication selection
+  const images = document.querySelectorAll('.medication-options img');
+  const medInput = document.querySelector('input[name="medication"]');
+  const medImgInput = document.querySelector('input[name="medicationImage"]');
+  const preview = document.getElementById('selected-medication-preview');
+
+  images.forEach(img => {
+    img.addEventListener('click', () => {
+      images.forEach(i => i.classList.remove('selected'));
+      img.classList.add('selected');
+
+      medInput.value = img.dataset.name;
+      medImgInput.value = img.src;
+
+      preview.innerHTML = `
+        <p>Selected: ${img.dataset.name}</p>
+        <img src="${img.src}" alt="${img.dataset.name}" width="80">
+      `;
+    });
+  });
+});
 
 // Toggle dark mode
 function toggleDarkMode() {
@@ -26,7 +48,10 @@ async function loadPatients() {
       <td>${p.first}</td>
       <td>${p.last}</td>
       <td>${p.disease}</td>
-      <td>${p.medication}</td>
+      <td>
+        <img src="${p.medicationImage}" alt="${p.medication}" width="50"><br>
+        ${p.medication}
+      </td>
       <td>${p.description}</td>
       <td><button onclick="deletePatient(${i})">Delete</button></td>
     `;
@@ -35,24 +60,30 @@ async function loadPatients() {
 }
 
 // Add new patient
-async function addPatientForm(e) {
-  e.preventDefault();
-  const form = e.target;
+async function addPatientForm(event) {
+  event.preventDefault();
+
+  const form = event.target;
+
   const patient = {
     first: form.first.value,
     last: form.last.value,
     disease: form.disease.value,
     medication: form.medication.value,
+    medicationImage: form.medicationImage.value,
     description: form.description.value
   };
 
+  // Send to server
   await fetch('/api/patients', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(patient)
   });
+
   form.reset();
-  loadPatients();
+  document.getElementById('selected-medication-preview').innerHTML = '';
+  loadPatients(); // reload the table
 }
 
 // Delete patient

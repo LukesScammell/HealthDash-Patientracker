@@ -22,7 +22,23 @@
       <input name="first" placeholder="First Name" required>
       <input name="last" placeholder="Last Name" required>
       <input name="disease" placeholder="Disease" required>
-      <input name="medication" placeholder="Medication" required>
+
+      <!-- Medication Image Picker -->
+      <div id="medication-selection">
+        <label><strong>Select Medication:</strong></label>
+        <div class="medication-options">
+          <img src="images/medications/ibuprofen.png" data-name="Ibuprofen" alt="Ibuprofen">
+          <img src="images/medications/paracetamol.png" data-name="Paracetamol" alt="Paracetamol">
+          <img src="images/medications/amoxicillin.png" data-name="Amoxicillin" alt="Amoxicillin">
+          <img src="images\medications\ssri.jpg" data-name="SSRIs" alt="SSRIs">
+          <img src="images\medications\antivirals.jpg" data-name="Antivirals" alt="Antivirals">
+          <img src="images\medications\antihistamines.jpg" data-name="Antihistamines" alt="Antihistamines">
+        </div>
+        <input type="hidden" name="medication" required>
+        <input type="hidden" name="medicationImage">
+        <div id="selected-medication-preview"></div>
+      </div>
+
       <input name="description" placeholder="Description" required>
       <button type="submit">Add Patient</button>
     </form>
