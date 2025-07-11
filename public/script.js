@@ -210,3 +210,14 @@ function deletePatient(id) {
 function toggleDarkMode() {
   document.body.classList.toggle("dark");
 }
+// ✅ Apply dark mode on page load if user previously enabled it
+if (localStorage.getItem("darkMode") === "enabled") {
+  document.body.classList.add("dark");
+}
+
+// ✅ Toggle dark mode and store preference
+function toggleDarkMode() {
+  const isDark = document.body.classList.toggle("dark");
+  localStorage.setItem("darkMode", isDark ? "enabled" : "disabled");
+}
+

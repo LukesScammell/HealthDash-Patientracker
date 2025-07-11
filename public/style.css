@@ -1,142 +1,167 @@
-:root {
-  --bg-color: #f9f9f9;
-  --text-color: #333;
-  --table-header: #3498db;
-  --table-bg: white;
+/* ========== NAVIGATION BAR ========== */
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #0078d4;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  color: white;
 }
 
-body.dark {
-  --bg-color: #1e1e1e;
-  --text-color: #ddd;
-  --table-header: #555;
-  --table-bg: #2a2a2a;
+.nav-brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+  letter-spacing: 0.5px;
 }
 
-body {
-  font-family: Arial, sans-serif;
-  background-color: var(--bg-color);
-  color: var(--text-color);
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+}
+
+.nav-links li a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 6px 10px;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+
+.nav-links li a:hover,
+.nav-links li a.active {
+  background-color: #005fa3;
+}
+
+.toggle-dark {
+  background: #ffffff22;
+  border: none;
+  color: white;
+  font-size: 1.1rem;
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.toggle-dark:hover {
+  background: #ffffff33;
+}
+
+/* ========== DARK MODE NAV ========== */
+body.dark .navbar {
+  background-color: #222;
+}
+
+body.dark .nav-links li a {
+  color: #ddd;
+}
+
+body.dark .nav-links li a.active,
+body.dark .nav-links li a:hover {
+  background-color: #333;
+}
+
+body.dark .toggle-dark {
+  background: #444;
+  color: #eee;
+}
+
+/* ========== RESET & GLOBAL ========== */
+* {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-.container {
-  max-width: 1100px;
-  margin: auto;
-  padding: 20px;
+body {
+  font-family: "Segoe UI", "Helvetica", sans-serif;
+  background-color: #f1f6fb;
+  color: #333;
+  padding: 2rem;
 }
 
-nav {
-  background-color: var(--table-header);
-  padding: 15px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+h1, h2 {
+  color: #04578e;
+  margin-bottom: 1rem;
 }
 
-nav a {
-  color: white;
-  margin-right: 20px;
-  text-decoration: none;
+hr {
+  border: none;
+  border-top: 1px solid #ccc;
+  margin: 2rem 0;
 }
 
-nav a:hover {
-  text-decoration: underline;
+/* ========== FORM CARD ========== */
+form {
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  margin-bottom: 2rem;
+  max-width: 700px;
 }
 
-button {
-  padding: 6px 12px;
-  margin-top: 10px;
+form label {
+  font-weight: 600;
+  margin-top: 1rem;
+  display: block;
+  color: #333;
 }
 
-table {
+form input,
+form textarea,
+form button {
   width: 100%;
-  border-collapse: collapse;
-  margin: 20px 0;
-  background-color: var(--table-bg);
-}
-
-th, td {
-  padding: 10px;
+  margin-top: 0.4rem;
+  margin-bottom: 1rem;
+  padding: 0.8rem 1rem;
   border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
 }
 
-th {
-  background-color: var(--table-header);
-  color: white;
+form textarea {
+  resize: vertical;
+  min-height: 80px;
 }
 
-tr:nth-child(even) {
-  background-color: #f4f4f4;
-}
-
-.dark tr:nth-child(even) {
-  background-color: #333;
-}
-
-input {
-  padding: 5px;
-  margin-right: 10px;
-}
-
-/* Old medication image grid (still included if you use it elsewhere) */
-.medication-options {
-  display: flex;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.medication-options img {
-  width: 80px;
+form button {
+  background-color: #0078d4;
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  transition: background-color 0.3s ease;
   cursor: pointer;
-  border: 2px solid transparent;
-  border-radius: 6px;
-  transition: transform 0.2s, border-color 0.2s;
 }
 
-.medication-options img:hover {
-  transform: scale(1.05);
+form button:hover {
+  background-color: #005fa3;
 }
 
-.medication-options img.selected {
-  border-color: #3498db;
+/* ========== SELECT MEDS STYLING ========== */
+#medicationDropdowns {
+  margin-top: 1rem;
 }
 
-/* Shared preview area */
-#selected-medication-preview {
-  margin-top: 10px;
-}
-
-#selected-medication-preview img {
-  margin-top: 10px;
-  border-radius: 6px;
-}
-
-/* Medication dropdown */
-#medication-selection {
-  margin: 1em 0;
-}
-
-/* Custom dropdown styling */
 .custom-select-wrapper {
-  position: relative;
-  width: 250px;
-  margin: 10px 0;
+  margin-bottom: 1rem;
 }
 
 .custom-select {
-  background: #fff;
+  position: relative;
+  padding: 0.75rem 1rem;
   border: 1px solid #ccc;
-  padding: 10px;
+  border-radius: 8px;
+  background-color: #fdfdfd;
   cursor: pointer;
-  border-radius: 6px;
 }
 
-.custom-select img {
-  vertical-align: middle;
-  margin-right: 8px;
-  width: 24px;
-  height: 24px;
+.selected-option {
+  color: #444;
 }
 
 .select-options {
@@ -145,26 +170,182 @@ input {
   left: 0;
   right: 0;
   border: 1px solid #ccc;
-  background: white;
-  z-index: 10;
-  border-radius: 6px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  border-top: none;
+  background-color: #fff;
   max-height: 200px;
   overflow-y: auto;
+  z-index: 999;
+}
+
+.select-options .option {
+  padding: 0.6rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  cursor: pointer;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.select-options .option:hover {
+  background-color: #eaf4ff;
 }
 
 .select-options.hidden {
   display: none;
 }
 
-.option {
-  padding: 10px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  transition: background 0.2s;
+/* ========== MEDICATION PREVIEW PILLS ========== */
+#selected-medication-preview {
+  margin-top: 1rem;
 }
 
-.option:hover {
-  background: #f0f0f0;
+#selected-medication-preview > div {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #e1efff;
+  border-radius: 20px;
+  padding: 0.4rem 0.8rem;
+  margin: 0.3rem;
+  font-size: 0.9rem;
+}
+
+/* ========== TABLE ========== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  background-color: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+}
+
+table thead {
+  background-color: #e7f3ff;
+}
+
+table th, table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+table th {
+  color: #04578e;
+  font-weight: 600;
+}
+
+table td img {
+  vertical-align: middle;
+  border-radius: 4px;
+}
+
+table td button {
+  background-color: #e74c3c;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+table td button:hover {
+  background-color: #c0392b;
+}
+
+/* ========== IMPROVED DARK MODE ========== */
+
+body.dark {
+  background-color: #121212;
+  color: #f1f1f1;
+}
+
+/* Form Container */
+body.dark form {
+  background-color: #1f1f1f;
+  border: 1px solid #2d2d2d;
+  color: #f1f1f1;
+}
+
+/* Form Elements */
+body.dark form input,
+body.dark form textarea {
+  background-color: #2a2a2a;
+  color: #ffffff;
+  border: 1px solid #444;
+}
+
+body.dark form input::placeholder,
+body.dark form textarea::placeholder {
+  color: #aaa;
+}
+
+body.dark label {
+  color: #cccccc;
+}
+
+body.dark form button {
+  background-color: #0078d4;
+  color: white;
+}
+
+body.dark form button:hover {
+  background-color: #005fa3;
+}
+
+/* Medication Preview Pills */
+body.dark #selected-medication-preview > div {
+  background-color: #2d4f6d;
+  color: #f0f0f0;
+  border: 1px solid #3c3c3c;
+}
+
+/* Table */
+body.dark table {
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+  border: none;
+}
+
+body.dark table th {
+  background-color: #2c2c2c;
+  color: #ffffff;
+}
+
+body.dark table td {
+  background-color: #1e1e1e;
+  color: #dddddd;
+  border-bottom: 1px solid #333;
+}
+
+body.dark table td button {
+  background-color: #c0392b;
+  color: white;
+}
+
+body.dark table td button:hover {
+  background-color: #e74c3c;
+}
+
+/* Custom Selects */
+body.dark .custom-select {
+  background-color: #2b2b2b;
+  color: #f1f1f1;
+  border: 1px solid #555;
+}
+
+body.dark .select-options {
+  background-color: #2b2b2b;
+  border: 1px solid #444;
+}
+
+body.dark .select-options .option {
+  color: #f0f0f0;
+  border-bottom: 1px solid #444;
+}
+
+body.dark .select-options .option:hover {
+  background-color: #3d3d3d;
 }

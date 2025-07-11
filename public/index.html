@@ -1,25 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Health Records Home</title>
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+
+  <!-- ✅ Unified Navigation -->
+  <nav class="navbar">
+    <div class="nav-brand">HealthDash</div>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">🏠 Home</a></li>
+      <li><a href="patients.html">🧑‍⚕️ Patients</a></li>
+      <li><a href="providers.html">👨‍🔬 Providers</a></li>
+    </ul>
+    <button onclick="toggleDarkMode()" class="toggle-dark">🌙</button>
+  </nav>
+
+  <!-- ✅ Page Content -->
   <div class="container">
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="patients.html">Patients</a>
-      <a href="providers.html">Providers</a>
-      <button onclick="toggleDarkMode()">🌓 Dark Mode</button>
-    </nav>
-
     <h1>Welcome to the Health Records System</h1>
-    <p>This system allows you to view and manage patient and health provider data.</p>
+    <p>This system allows you to view and manage patient and provider records in one place.</p>
 
-    <ul>
-      <li><a href="patients.html">Go to Patient Records →</a></li>
-      <li><a href="providers.html">Go to Health Providers →</a></li>
+    <ul style="margin-top: 2rem;">
+      <li><a href="patients.html">📋 Go to Patient Records →</a></li>
+      <li><a href="providers.html">👨‍⚕️ Go to Health Providers →</a></li>
     </ul>
   </div>
 

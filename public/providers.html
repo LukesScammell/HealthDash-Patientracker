@@ -1,40 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Health Providers</title>
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body>
-  <div class="container">
-    <!-- Nav bar -->
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="patients.html">Patients</a>
-      <a href="providers.html">Providers</a>
-      <button onclick="toggleDarkMode()">🌓 Dark Mode</button>
-    </nav>
+<body onload="loadProviders()">
 
-    <h1>Health Providers</h1>
+  <!-- ✅ Unified Navigation -->
+  <nav class="navbar">
+    <div class="nav-brand">HealthDash</div>
+    <ul class="nav-links">
+      <li><a href="index.html">🏠 Home</a></li>
+      <li><a href="patients.html">🧑‍⚕️ Patients</a></li>
+      <li><a href="providers.html" class="active">👨‍🔬 Providers</a></li>
+    </ul>
+    <button onclick="toggleDarkMode()" class="toggle-dark">🌙</button>
+  </nav>
 
-    <form onsubmit="addProviderForm(event)">
-      <input name="name" placeholder="Name" required>
-      <input name="specialty" placeholder="Specialty" required>
-      <input name="contact" placeholder="Contact Info" required>
-      <button type="submit">Add Provider</button>
-    </form>
+  <h1>Health Providers</h1>
 
-    <table id="providers-table">
-      <thead>
-        <tr>
-          <th>#</th><th>Name</th><th>Specialty</th><th>Contact</th><th>Actions</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-  </div>
+  <!-- ✅ Provider Form -->
+  <form onsubmit="addProviderForm(event)">
+    <label>Name:</label>
+    <input name="name" placeholder="Name" required />
+
+    <label>Specialty:</label>
+    <input name="specialty" placeholder="Specialty" required />
+
+    <label>Contact Info:</label>
+    <input name="contact" placeholder="Contact Email or Phone" required />
+
+    <button type="submit">➕ Add Provider</button>
+  </form>
+
+  <!-- ✅ Provider Table -->
+  <table id="providers-table">
+    <thead>
+      <tr>
+        <th>#</th><th>Name</th><th>Specialty</th><th>Contact</th><th>Actions</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
 
   <script src="script.js"></script>
-  <script>loadProviders();</script>
 </body>
 </html>

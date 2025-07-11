@@ -2,78 +2,70 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Patient Records</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="script.js"></script>
-
+  <title>Patient Management</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body>
-  <div class="container">
-    <!-- Navigation Bar -->
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="patients.html">Patients</a>
-      <a href="providers.html">Providers</a>
-      <button onclick="toggleDarkMode()">🌓 Dark Mode</button>
-    </nav>
+<body onload="loadPatients()">
 
-    <h1>Patient Records</h1>
+  <!-- ✅ NAVIGATION BAR -->
+  <nav class="navbar">
+    <div class="nav-brand">HealthDash</div>
+    <ul class="nav-links">
+      <li><a href="index.html">🏠 Home</a></li>
+      <li><a href="patients.html" class="active">🧑‍⚕️ Patients</a></li>
+      <li><a href="providers.html">👨‍🔬 Providers</a></li>
+    </ul>
+    <button onclick="toggleDarkMode()" class="toggle-dark">🌙</button>
+  </nav>
 
-    <!-- Add Patient Form -->
-    <form onsubmit="addPatientForm(event)">
-      <input name="first" placeholder="First Name" required />
-      <input name="last" placeholder="Last Name" required />
-      <input name="disease" placeholder="Disease" required />
+  <!-- ✅ PAGE TITLE -->
+  <h1>Patient Management</h1>
 
-      <!-- Medication Multi-Selection -->
-      <div id="medication-selection">
-        <label for="medCount"><strong>How many medications?</strong></label>
-        <input
-          type="number"
-          id="medCount"
-          min="1"
-          max="5"
-          value="1"
-          onchange="generateMedicationDropdowns()"
-          required
-        />
+  <!-- ✅ PATIENT FORM -->
+  <form onsubmit="addPatientForm(event)">
+    <label>First Name:</label>
+    <input type="text" name="first" required />
 
-        <div id="medicationDropdowns"></div>
+    <label>Last Name:</label>
+    <input type="text" name="last" required />
 
-        <!-- Hidden input to store JSON string of meds -->
-        <input type="hidden" name="medications" required />
-      </div>
+    <label>Disease:</label>
+    <input type="text" name="disease" required />
 
-      <input name="description" placeholder="Description" required />
-      <button type="submit">Add Patient</button>
-    </form>
+    <label>Description:</label>
+    <textarea name="description" rows="3" placeholder="Symptoms or notes..."></textarea>
+
+    <label for="medCount">How many medications?</label>
+    <input type="number" id="medCount" name="medCount" value="1" min="1" max="5" onchange="generateMedicationDropdowns()" />
+
+    <div id="medicationDropdowns"></div>
+    <input type="hidden" name="medications" required />
 
     <div id="selected-medication-preview"></div>
 
-    <!-- Patient Table -->
-    <table id="patients-table">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>First</th>
-          <th>Last</th>
-          <th>Disease</th>
-          <th>Medications</th>
-          <th>Description</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-  </div>
+    <button type="submit">➕ Add Patient</button>
+  </form>
+
+  <hr />
+
+  <!-- ✅ PATIENT TABLE -->
+  <h2>Patient List</h2>
+  <table id="patients-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>First</th>
+        <th>Last</th>
+        <th>Disease</th>
+        <th>Medications</th>
+        <th>Description</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
 
   <script src="script.js"></script>
-  <script>
-    // Initialize medication dropdowns on page load
-    window.onload = function () {
-      generateMedicationDropdowns();
-      loadPatients();
-    };
-  </script>
 </body>
 </html>
