@@ -1,136 +1,212 @@
-// script.js
-document.addEventListener('DOMContentLoaded', () => {
-  // Handle medication selection
-  const images = document.querySelectorAll('.medication-options img');
-  const medInput = document.querySelector('input[name="medication"]');
-  const medImgInput = document.querySelector('input[name="medicationImage"]');
-  const preview = document.getElementById('selected-medication-preview');
+// --- Medication Multi-select dropdown code ---
 
-  images.forEach(img => {
-    img.addEventListener('click', () => {
-      images.forEach(i => i.classList.remove('selected'));
-      img.classList.add('selected');
+function generateMedicationDropdowns() {
+  const count = parseInt(document.getElementById("medCount").value);
+  const container = document.getElementById("medicationDropdowns");
+  const preview = document.getElementById("selected-medication-preview");
+  container.innerHTML = "";
+  preview.innerHTML = "";
 
-      medInput.value = img.dataset.name;
-      medImgInput.value = img.src;
+  for (let i = 0; i < count; i++) {
+    const wrapper = document.createElement("div");
+    wrapper.className = "custom-select-wrapper";
 
-      preview.innerHTML = `
-        <p>Selected: ${img.dataset.name}</p>
-        <img src="${img.src}" alt="${img.dataset.name}" width="80">
-      `;
-    });
-  });
-});
+    wrapper.innerHTML = `
+      <div class="custom-select" onclick="toggleDropdown(this)">
+        <div class="selected-option">Select medication ${i + 1}</div>
+        <div class="select-options hidden">
+          ${generateOptionsHTML()}
+        </div>
+      </div>
+    `;
 
-// Toggle dark mode
-function toggleDarkMode() {
-  document.body.classList.toggle('dark');
-  localStorage.setItem('darkMode', document.body.classList.contains('dark'));
+    container.appendChild(wrapper);
+  }
+
+  document.querySelector("input[name='medications']").value = "";
 }
 
-window.addEventListener('DOMContentLoaded', () => {
-  if (localStorage.getItem('darkMode') === 'true') {
-    document.body.classList.add('dark');
+function toggleDropdown(selectElement) {
+  const allOptions = document.querySelectorAll(".select-options");
+  allOptions.forEach((opt) => opt.classList.add("hidden"));
+  const dropdown = selectElement.querySelector(".select-options");
+  dropdown.classList.toggle("hidden");
+}
+
+function generateOptionsHTML() {
+  const meds = [
+    { name: "Amoxicillin", img: "images/medications/amoxicillin.png" },
+    { name: "Antihistamines", img: "images/medications/antihistamines.jpg" },
+    { name: "Antivirals", img: "images/medications/antivirals.png" },
+    { name: "Ibuprofen", img: "images/medications/ibuprofen.png" },
+    { name: "Inhaler", img: "images/medications/inhaler.png" },
+    { name: "Insulin", img: "images/medications/insulin.png" },
+    { name: "Paracetamol", img: "images/medications/paracetamol.png" },
+    { name: "SSRI", img: "images/medications/ssri.png" },
+    { name: "Triptans", img: "images/medications/triptans.png" },
+  ];
+
+  return meds.map((med) => `
+    <div class="option" data-name="${med.name}" data-img="${med.img}">
+      <img src="${med.img}" alt="${med.name}" width="24" height="24" />
+      ${med.name}
+    </div>`).join("");
+}
+
+document.addEventListener("click", (e) => {
+  const clickedOption = e.target.closest(".option");
+
+  if (clickedOption) {
+    const dropdown = clickedOption.closest(".custom-select");
+    const selectedDisplay = dropdown.querySelector(".selected-option");
+
+    const name = clickedOption.dataset.name;
+    const img = clickedOption.dataset.img;
+
+    const existingNames = Array.from(
+      document.querySelectorAll(".selected-option[data-name]")
+    ).map((el) => el.dataset.name);
+
+    if (existingNames.includes(name)) {
+      alert(`You've already selected "${name}". Choose a different medication.`);
+      return;
+    }
+
+    selectedDisplay.innerHTML = `<img src="${img}" width="24" /> ${name}`;
+    selectedDisplay.dataset.name = name;
+    selectedDisplay.dataset.img = img;
+
+    clickedOption.closest(".select-options").classList.add("hidden");
+
+    updateMedicationSelectionPreview();
+    updateAvailableOptions();
+  } else if (!e.target.closest(".custom-select")) {
+    document.querySelectorAll(".select-options").forEach((opt) =>
+      opt.classList.add("hidden")
+    );
   }
 });
 
-// 🧠 Load and manage patients
-async function loadPatients() {
-  const res = await fetch('/api/patients');
-  const patients = await res.json();
-  const tbody = document.querySelector('#patients-table tbody');
-  tbody.innerHTML = '';
+function updateMedicationSelectionPreview() {
+  const preview = document.getElementById("selected-medication-preview");
+  const allDropdowns = document.querySelectorAll(".custom-select");
+  const medObjects = [];
 
-  patients.forEach((p, i) => {
-    const row = document.createElement('tr');
-    row.innerHTML = `
-      <td>${i + 1}</td>
-      <td>${p.first}</td>
-      <td>${p.last}</td>
-      <td>${p.disease}</td>
-      <td>
-        <img src="${p.medicationImage}" alt="${p.medication}" width="50"><br>
-        ${p.medication}
-      </td>
-      <td>${p.description}</td>
-      <td><button onclick="deletePatient(${i})">Delete</button></td>
-    `;
-    tbody.appendChild(row);
+  preview.innerHTML = "";
+
+  allDropdowns.forEach((select) => {
+    const opt = select.querySelector(".selected-option");
+    if (opt.dataset.name && opt.dataset.img) {
+      medObjects.push({ name: opt.dataset.name, image: opt.dataset.img });
+      preview.innerHTML += `<div><img src="${opt.dataset.img}" width="50" /> ${opt.dataset.name}</div>`;
+    }
+  });
+
+  document.querySelector("input[name='medications']").value = JSON.stringify(medObjects);
+}
+
+function updateAvailableOptions() {
+  const selectedNames = Array.from(
+    document.querySelectorAll(".selected-option[data-name]")
+  ).map((opt) => opt.dataset.name);
+
+  document.querySelectorAll(".custom-select").forEach((select) => {
+    const thisSelected = select.querySelector(".selected-option").dataset.name;
+    select.querySelectorAll(".option").forEach((option) => {
+      const name = option.dataset.name;
+      option.style.display =
+        selectedNames.includes(name) && name !== thisSelected ? "none" : "flex";
+    });
   });
 }
 
-// Add new patient
-async function addPatientForm(event) {
+// --- Patient Form Submit (calls POST /patients) ---
+
+function addPatientForm(event) {
   event.preventDefault();
 
   const form = event.target;
-
-  const patient = {
-    first: form.first.value,
-    last: form.last.value,
-    disease: form.disease.value,
-    medication: form.medication.value,
-    medicationImage: form.medicationImage.value,
-    description: form.description.value
+  const newPatient = {
+    first: form.first.value.trim(),
+    last: form.last.value.trim(),
+    disease: form.disease.value.trim(),
+    description: form.description.value.trim(),
+    medications: []
   };
 
-  // Send to server
-  await fetch('/api/patients', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(patient)
-  });
+  try {
+    newPatient.medications = JSON.parse(form.medications.value);
+  } catch {
+    alert("Please select at least one medication.");
+    return;
+  }
 
-  form.reset();
-  document.getElementById('selected-medication-preview').innerHTML = '';
-  loadPatients(); // reload the table
+  if (newPatient.medications.length === 0) {
+    alert("Please select at least one medication.");
+    return;
+  }
+
+  fetch("/patients", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(newPatient)
+  })
+    .then((res) => {
+      if (!res.ok) throw new Error("Failed to save patient.");
+      return res.json();
+    })
+    .then(() => {
+      form.reset();
+      document.getElementById("selected-medication-preview").innerHTML = "";
+      generateMedicationDropdowns();
+      loadPatients();
+    })
+    .catch((err) => alert(err.message));
 }
 
-// Delete patient
-async function deletePatient(index) {
-  await fetch(`/api/patients/${index}`, { method: 'DELETE' });
-  loadPatients();
+// --- Load Patients from backend (GET /patients) ---
+
+function loadPatients() {
+  const tableBody = document.querySelector("#patients-table tbody");
+  tableBody.innerHTML = "";
+
+  fetch("/patients")
+    .then(res => res.json())
+    .then(patients => {
+      patients.forEach((patient, index) => {
+        const meds = patient.medications.map(m => `
+          <div style="display:flex; align-items:center; gap:6px;">
+            <img src="${m.image}" width="30" /> ${m.name}
+          </div>
+        `).join("");
+
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${patient.first}</td>
+          <td>${patient.last}</td>
+          <td>${patient.disease}</td>
+          <td>${meds}</td>
+          <td>${patient.description}</td>
+          <td><button onclick="deletePatient(${patient.id})">Delete</button></td>
+        `;
+        tableBody.appendChild(row);
+      });
+    });
 }
 
-// Providers: similar logic
-async function loadProviders() {
-  const res = await fetch('/api/providers');
-  const providers = await res.json();
-  const tbody = document.querySelector('#providers-table tbody');
-  tbody.innerHTML = '';
+// --- Delete Patient (DELETE /patients/:id) ---
 
-  providers.forEach((p, i) => {
-    const row = document.createElement('tr');
-    row.innerHTML = `
-      <td>${i + 1}</td>
-      <td>${p.name}</td>
-      <td>${p.specialty}</td>
-      <td>${p.contact}</td>
-      <td><button onclick="deleteProvider(${i})">Delete</button></td>
-    `;
-    tbody.appendChild(row);
-  });
+function deletePatient(id) {
+  fetch(`/patients/${id}`, { method: "DELETE" })
+    .then(res => {
+      if (!res.ok) throw new Error("Failed to delete patient");
+      loadPatients();
+    })
+    .catch(err => alert(err.message));
 }
 
-async function addProviderForm(e) {
-  e.preventDefault();
-  const form = e.target;
-  const provider = {
-    name: form.name.value,
-    specialty: form.specialty.value,
-    contact: form.contact.value
-  };
-
-  await fetch('/api/providers', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(provider)
-  });
-  form.reset();
-  loadProviders();
-}
-
-async function deleteProvider(index) {
-  await fetch(`/api/providers/${index}`, { method: 'DELETE' });
-  loadProviders();
+// --- Optional: Dark Mode Toggle ---
+function toggleDarkMode() {
+  document.body.classList.toggle("dark");
 }

@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Patient Records</title>
   <link rel="stylesheet" href="style.css">
+  <script src="script.js"></script>
+
 </head>
 <body>
   <div class="container">
@@ -19,29 +21,34 @@
 
     <!-- Add Patient Form -->
     <form onsubmit="addPatientForm(event)">
-      <input name="first" placeholder="First Name" required>
-      <input name="last" placeholder="Last Name" required>
-      <input name="disease" placeholder="Disease" required>
+      <input name="first" placeholder="First Name" required />
+      <input name="last" placeholder="Last Name" required />
+      <input name="disease" placeholder="Disease" required />
 
-      <!-- Medication Image Picker -->
+      <!-- Medication Multi-Selection -->
       <div id="medication-selection">
-        <label><strong>Select Medication:</strong></label>
-        <div class="medication-options">
-          <img src="images/medications/ibuprofen.png" data-name="Ibuprofen" alt="Ibuprofen">
-          <img src="images/medications/paracetamol.png" data-name="Paracetamol" alt="Paracetamol">
-          <img src="images/medications/amoxicillin.png" data-name="Amoxicillin" alt="Amoxicillin">
-          <img src="images\medications\ssri.jpg" data-name="SSRIs" alt="SSRIs">
-          <img src="images\medications\antivirals.jpg" data-name="Antivirals" alt="Antivirals">
-          <img src="images\medications\antihistamines.jpg" data-name="Antihistamines" alt="Antihistamines">
-        </div>
-        <input type="hidden" name="medication" required>
-        <input type="hidden" name="medicationImage">
-        <div id="selected-medication-preview"></div>
+        <label for="medCount"><strong>How many medications?</strong></label>
+        <input
+          type="number"
+          id="medCount"
+          min="1"
+          max="5"
+          value="1"
+          onchange="generateMedicationDropdowns()"
+          required
+        />
+
+        <div id="medicationDropdowns"></div>
+
+        <!-- Hidden input to store JSON string of meds -->
+        <input type="hidden" name="medications" required />
       </div>
 
-      <input name="description" placeholder="Description" required>
+      <input name="description" placeholder="Description" required />
       <button type="submit">Add Patient</button>
     </form>
+
+    <div id="selected-medication-preview"></div>
 
     <!-- Patient Table -->
     <table id="patients-table">
@@ -51,7 +58,7 @@
           <th>First</th>
           <th>Last</th>
           <th>Disease</th>
-          <th>Medication</th>
+          <th>Medications</th>
           <th>Description</th>
           <th>Actions</th>
         </tr>
@@ -61,6 +68,12 @@
   </div>
 
   <script src="script.js"></script>
-  <script>loadPatients();</script>
+  <script>
+    // Initialize medication dropdowns on page load
+    window.onload = function () {
+      generateMedicationDropdowns();
+      loadPatients();
+    };
+  </script>
 </body>
 </html>

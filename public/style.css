@@ -79,6 +79,7 @@ input {
   margin-right: 10px;
 }
 
+/* Old medication image grid (still included if you use it elsewhere) */
 .medication-options {
   display: flex;
   gap: 10px;
@@ -101,7 +102,69 @@ input {
   border-color: #3498db;
 }
 
+/* Shared preview area */
 #selected-medication-preview {
   margin-top: 10px;
 }
 
+#selected-medication-preview img {
+  margin-top: 10px;
+  border-radius: 6px;
+}
+
+/* Medication dropdown */
+#medication-selection {
+  margin: 1em 0;
+}
+
+/* Custom dropdown styling */
+.custom-select-wrapper {
+  position: relative;
+  width: 250px;
+  margin: 10px 0;
+}
+
+.custom-select {
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.custom-select img {
+  vertical-align: middle;
+  margin-right: 8px;
+  width: 24px;
+  height: 24px;
+}
+
+.select-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  border: 1px solid #ccc;
+  background: white;
+  z-index: 10;
+  border-radius: 6px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.select-options.hidden {
+  display: none;
+}
+
+.option {
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: background 0.2s;
+}
+
+.option:hover {
+  background: #f0f0f0;
+}

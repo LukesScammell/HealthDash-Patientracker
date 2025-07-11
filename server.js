@@ -1,78 +1,54 @@
-const express = require('express');
-const fs = require('fs');
-const path = require('path');
-
+const express = require("express");
+const fs = require("fs");
+const path = require("path");
 const app = express();
 const PORT = 3000;
 
-const PATIENT_FILE = 'patients.json';
-const PROVIDER_FILE = 'providers.json';
+// Serve frontend files from /frontend folder
+app.use(express.static(path.join(__dirname, "frontend")));
+app.use(express.json());
 
-app.use(express.static('public'));
-app.use(express.json()); // Parse JSON bodies
-
-// Utility functions
-function loadData(file) {
-  if (!fs.existsSync(file)) return [];
-  return JSON.parse(fs.readFileSync(file, 'utf8') || '[]');
-}
-
-function saveData(file, data) {
-  fs.writeFileSync(file, JSON.stringify(data, null, 2));
-}
-
-// === PATIENTS API ===
-app.get('/api/patients', (req, res) => {
-  const patients = loadData(PATIENT_FILE);
-  res.json(patients);
+// Get patients.json
+app.get("/patients", (req, res) => {
+  const filePath = path.join(__dirname, "patients.json");
+  fs.readFile(filePath, "utf8", (err, data) => {
+    if (err) return res.status(500).send("Failed to read patient data");
+    res.json(JSON.parse(data));
+  });
 });
 
-app.post('/api/patients', (req, res) => {
-  const patients = loadData(PATIENT_FILE);
-  console.log('New patient:', req.body); // optional
-  patients.push(req.body);
-  saveData(PATIENT_FILE, patients);
-  res.json({ success: true });
+// Save a new patient
+app.post("/patients", (req, res) => {
+  const filePath = path.join(__dirname, "patients.json");
+  const newPatient = req.body;
+  newPatient.id = Date.now();
+
+  fs.readFile(filePath, "utf8", (err, data) => {
+    if (err) return res.status(500).send("Read error");
+    let patients = JSON.parse(data);
+    patients.push(newPatient);
+    fs.writeFile(filePath, JSON.stringify(patients, null, 2), (err) => {
+      if (err) return res.status(500).send("Write error");
+      res.status(201).json(newPatient);
+    });
+  });
 });
 
-app.delete('/api/patients/:id', (req, res) => {
-  const patients = loadData(PATIENT_FILE);
+// Delete a patient
+app.delete("/patients/:id", (req, res) => {
+  const filePath = path.join(__dirname, "patients.json");
   const id = parseInt(req.params.id);
-  if (id >= 0 && id < patients.length) {
-    patients.splice(id, 1);
-    saveData(PATIENT_FILE, patients);
-    res.json({ success: true });
-  } else {
-    res.status(404).json({ error: 'Patient not found' });
-  }
+  fs.readFile(filePath, "utf8", (err, data) => {
+    if (err) return res.status(500).send("Read error");
+    let patients = JSON.parse(data);
+    const updated = patients.filter((p) => p.id !== id);
+    fs.writeFile(filePath, JSON.stringify(updated, null, 2), (err) => {
+      if (err) return res.status(500).send("Write error");
+      res.sendStatus(204);
+    });
+  });
 });
 
-// === PROVIDERS API ===
-app.get('/api/providers', (req, res) => {
-  const providers = loadData(PROVIDER_FILE);
-  res.json(providers);
-});
-
-app.post('/api/providers', (req, res) => {
-  const providers = loadData(PROVIDER_FILE);
-  providers.push(req.body);
-  saveData(PROVIDER_FILE, providers);
-  res.json({ success: true });
-});
-
-app.delete('/api/providers/:id', (req, res) => {
-  const providers = loadData(PROVIDER_FILE);
-  const id = parseInt(req.params.id);
-  if (id >= 0 && id < providers.length) {
-    providers.splice(id, 1);
-    saveData(PROVIDER_FILE, providers);
-    res.json({ success: true });
-  } else {
-    res.status(404).json({ error: 'Provider not found' });
-  }
-});
-
-// === START SERVER ===
 app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+  console.log(`✅ Server running at http://localhost:${PORT}`);
 });
