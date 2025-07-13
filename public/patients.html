@@ -6,19 +6,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="style.css" />
 </head>
-<body onload="loadPatients()">
-
-  <!-- ✅ NAVIGATION BAR -->
-  <nav class="navbar">
-    <div class="nav-brand">HealthDash</div>
-    <ul class="nav-links">
-      <li><a href="index.html">🏠 Home</a></li>
-      <li><a href="patients.html" class="active">🧑‍⚕️ Patients</a></li>
-      <li><a href="providers.html">👨‍🔬 Providers</a></li>
-    </ul>
-    <button onclick="toggleDarkMode()" class="toggle-dark">🌙</button>
-  </nav>
-
+<body onload="loadPatients(); generateMedicationDropdowns();">
+   <!-- Include the nav -->
+<div id="nav-placeholder"></div>
+    <!-- ✅ Auth Check -->
+  <script>
+  fetch("/me").catch(() => {
+    localStorage.setItem("redirectAfterLogin", window.location.pathname);
+    window.location.href = "login.html";
+  });
+</script>
+ 
+<script>
+  fetch("nav.html")
+    .then(res => res.text())
+    .then(html => {
+      document.getElementById("nav-placeholder").innerHTML = html;
+    });
+</script>
   <!-- ✅ PAGE TITLE -->
   <h1>Patient Management</h1>
 
@@ -38,6 +43,7 @@
 
     <label for="medCount">How many medications?</label>
     <input type="number" id="medCount" name="medCount" value="1" min="1" max="5" onchange="generateMedicationDropdowns()" />
+
 
     <div id="medicationDropdowns"></div>
     <input type="hidden" name="medications" required />

@@ -349,3 +349,103 @@ body.dark .select-options .option {
 body.dark .select-options .option:hover {
   background-color: #3d3d3d;
 }
+/* === LOGIN PAGE STYLES === */
+form {
+  max-width: 400px;
+  margin: 3rem auto;
+  background: #f8f8f8;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+form h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+form input {
+  width: 100%;
+  padding: 10px;
+  margin: 0.75rem 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+form button {
+  width: 100%;
+  padding: 10px;
+  background-color: #0078d4;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+form button:hover {
+  background-color: #005fa3;
+}
+
+/* === DARK MODE FOR LOGIN === */
+body.dark form {
+  background-color: #1f1f1f;
+  color: #f1f1f1;
+}
+
+body.dark form input {
+  background-color: #2a2a2a;
+  color: #ffffff;
+  border: 1px solid #444;
+}
+
+body.dark form button {
+  background-color: #2d88ff;
+}
+
+body.dark form button:hover {
+  background-color: #1669c1;
+}
+
+/* === RESPONSIVE MOBILE NAVIGATION === */
+.nav-toggle {
+  font-size: 1.5rem;
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .nav-toggle {
+    display: inline;
+  }
+
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    background-color: #0078d4;
+    padding: 1rem 0;
+    margin-top: 1rem;
+    border-radius: 8px;
+  }
+
+  .nav-links.show {
+    display: flex;
+  }
+
+  .nav-links li {
+    padding: 0.5rem 1.25rem;
+  }
+
+  .nav-links li a {
+    display: block;
+    width: 100%;
+  }
+
+  body.dark .nav-links {
+    background-color: #1e1e1e;
+  }
+}

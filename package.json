@@ -18,6 +18,10 @@
   },
   "homepage": "https://github.com/LukesScammell/website-upgrade-assesment-3#readme",
   "dependencies": {
-    "express": "^5.1.0"
+    "bcrypt": "^6.0.0",
+    "connect-mongo": "^5.1.0",
+    "express": "^5.1.0",
+    "express-session": "^1.18.1",
+    "mongoose": "^8.16.3"
   }
 }

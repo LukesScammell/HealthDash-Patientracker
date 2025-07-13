@@ -1,52 +1,32 @@
 [
   {
-    "name": "Dr. Sarah Thompson",
-    "specialty": "General Practitioner",
-    "contact": "s.thompson@gpclinic.co.nz"
+    "id": 1720733000001,
+    "name": "Dr. Emily Harper",
+    "specialty": "Cardiology",
+    "contact": "emily.harper@example.com"
   },
   {
-    "name": "Dr. Michael Chen",
-    "specialty": "Cardiologist",
-    "contact": "mchen@heartcentre.co.nz"
+    "id": 1720733000002,
+    "name": "Dr. Aiden Bennett",
+    "specialty": "Dermatology",
+    "contact": "aiden.bennett@example.com"
   },
   {
-    "name": "Dr. Zoe Russell",
-    "specialty": "Cardiologist",
-    "contact": "mchen@heartcentre.co.nz"
+    "id": 1720733000003,
+    "name": "Dr. Sophia Martinez",
+    "specialty": "Pediatrics",
+    "contact": "sophia.martinez@example.com"
   },
   {
-    "name": "Dr. James Patel",
-    "specialty": "Pediatrician",
-    "contact": "j.patel@childhealth.nz"
+    "id": 1720733000004,
+    "name": "Dr. Marcus Chen",
+    "specialty": "Neurology",
+    "contact": "marcus.chen@example.com"
   },
   {
-    "name": "Dr. Jake Patel",
-    "specialty": "Pediatrician",
-    "contact": "jpatel@childclinic.nz"
-  },
-  {
-    "name": "Dr. Emily Green",
-    "specialty": "Dermatologist",
-    "contact": "oclark@skinspecialist.nz"
-  },
-  {
-    "name": "Dr. Olivia Clark",
-    "specialty": "Dermatologist",
-    "contact": "oclark@skinspecialist.nz"
-  },
-  {
-    "name": "Dr. Priya Nair",
-    "specialty": "Neurologist",
-    "contact": "p.nair@neurocare.nz"
-  },
-  {
-    "name": "Dr. Rajesh Nair",
-    "specialty": "Neurologist",
-    "contact": "p.nair@neurocare.nz"
-  },
-  {
-    "name": "Dr. Liam Davis",
-    "specialty": "Orthopedic Surgeon",
-    "contact": "ldavis@bonefix.co.nz"
+    "id": 1720733000005,
+    "name": "Dr. Olivia Reed",
+    "specialty": "General Practice",
+    "contact": "olivia.reed@example.com"
   }
 ]

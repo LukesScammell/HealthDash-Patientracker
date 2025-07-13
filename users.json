@@ -1,0 +1,22 @@
+[
+  {
+    "username": "admin@healthdash.com",
+    "password": "$2b$10$YXd3cD0uvlBO.mz37FZKQuK5uxOtAcAe49vDnYkbihbNOOqUsKqJe", 
+    "role": "provider"
+  },
+  {
+    "username": "nurse@clinic.org",
+    "password": "$2b$10$eXc8.WTPHxtV3r9Q4eT4Jea8/34qUb8YjPeqxQ5gCV1FciVjQHnlK", 
+    "role": "provider"
+  },
+  {
+    "username": "guest@healthdash.com",
+    "password": "$2b$10$miyI.CsFzDOavDYWgZZazOR.AZVpIXj7bDAcXUVJmpvKNYC3BiRAa", 
+    "role": "readonly"
+  },
+  {
+    "username": "viewer@clinic.org",
+    "password": "$2b$10$q9y6zk9WRuGHj0lmJ7uUuOClSBAT9Lj5hhq4Oh3FLNVswuCB3svyS", 
+    "role": "readonly"
+  }
+]

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-brand">HealthDash</div>
+    <ul class="nav-links">
+      <li><a href="index.html">🏠 Home</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="register.html" class="toggle-dark">📝 Register</a>
+      <button onclick="toggleDarkMode()" class="toggle-dark">🌙</button>
+    </div>
+  </nav>
+
+  <form onsubmit="login(event)">
+    <h2>Login</h2>
+
+    <label>Username:</label>
+    <input name="username" required />
+
+    <label>Password:</label>
+    <input type="password" name="password" required />
+
+    <!-- ✅ Forgot Password Link -->
+    <a href="forgot-password.html" style="display:block;margin:0.5rem 0;">Forgot password?</a>
+
+    <button type="submit">🔐 Log In</button>
+  </form>
+
+  <script>
+    function login(e) {
+      e.preventDefault();
+      const form = e.target;
+
+      // Save the last intended page (optional, handled separately)
+      const redirectPage = localStorage.getItem("redirectAfterLogin");
+
+      fetch("/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: form.username.value,
+          password: form.password.value
+        })
+      }).then(res => {
+        if (!res.ok) return alert("Login failed");
+        return res.json();
+      }).then(user => {
+        if (redirectPage) {
+          location.href = redirectPage;
+          localStorage.removeItem("redirectAfterLogin");
+        } else {
+          location.href = user.role === "provider" ? "patients.html" : "index.html";
+        }
+      });
+    }
+
+    function toggleDarkMode() {
+      const isDark = document.body.classList.toggle("dark");
+      localStorage.setItem("darkMode", isDark ? "enabled" : "disabled");
+    }
+  </script>
+</body>
+</html>

@@ -1,5 +1,43 @@
-// --- Medication Multi-select dropdown code ---
+// 🌓 Dark Mode Setup + Nav Auth Display
+(function applySavedOrSystemTheme() {
+  const saved = localStorage.getItem("darkMode");
 
+  if (saved === "enabled") {
+    document.body.classList.add("dark");
+  } else if (saved === "disabled") {
+    document.body.classList.remove("dark");
+  } else {
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    if (prefersDark) {
+      document.body.classList.add("dark");
+    }
+  }
+})();
+
+function toggleDarkMode() {
+  const isDark = document.body.classList.toggle("dark");
+  localStorage.setItem("darkMode", isDark ? "enabled" : "disabled");
+}
+
+function logout() {
+  fetch("/logout", { method: "POST" }).then(() => location.href = "login.html");
+}
+
+// Show nav links if logged in
+fetch("/me")
+  .then(res => res.json())
+  .then(user => {
+    document.getElementById("nav-user").innerText = "👋 " + user.username;
+    document.querySelectorAll(".nav-auth").forEach(el => el.style.display = "inline");
+  })
+  .catch(() => {
+    document.querySelectorAll(".nav-auth").forEach(el => el.remove());
+    const logoutBtn = document.querySelector("button[onclick='logout()']");
+    if (logoutBtn) logoutBtn.style.display = "none";
+  });
+
+
+// ✅ PATIENT MEDICATION SELECT UI
 function generateMedicationDropdowns() {
   const count = parseInt(document.getElementById("medCount").value);
   const container = document.getElementById("medicationDropdowns");
@@ -27,8 +65,7 @@ function generateMedicationDropdowns() {
 }
 
 function toggleDropdown(selectElement) {
-  const allOptions = document.querySelectorAll(".select-options");
-  allOptions.forEach((opt) => opt.classList.add("hidden"));
+  document.querySelectorAll(".select-options").forEach(opt => opt.classList.add("hidden"));
   const dropdown = selectElement.querySelector(".select-options");
   dropdown.classList.toggle("hidden");
 }
@@ -42,8 +79,8 @@ function generateOptionsHTML() {
     { name: "Inhaler", img: "images/medications/inhaler.png" },
     { name: "Insulin", img: "images/medications/insulin.png" },
     { name: "Paracetamol", img: "images/medications/paracetamol.png" },
-    { name: "SSRI", img: "images/medications/ssri.png" },
-    { name: "Triptans", img: "images/medications/triptans.png" },
+    { name: "SSRI", img: "images/medications/ssri.jpg" },
+    { name: "Triptans", img: "images/medications/triptans.jpg" },
   ];
 
   return meds.map((med) => `
@@ -65,7 +102,7 @@ document.addEventListener("click", (e) => {
 
     const existingNames = Array.from(
       document.querySelectorAll(".selected-option[data-name]")
-    ).map((el) => el.dataset.name);
+    ).map(el => el.dataset.name);
 
     if (existingNames.includes(name)) {
       alert(`You've already selected "${name}". Choose a different medication.`);
@@ -81,9 +118,7 @@ document.addEventListener("click", (e) => {
     updateMedicationSelectionPreview();
     updateAvailableOptions();
   } else if (!e.target.closest(".custom-select")) {
-    document.querySelectorAll(".select-options").forEach((opt) =>
-      opt.classList.add("hidden")
-    );
+    document.querySelectorAll(".select-options").forEach(opt => opt.classList.add("hidden"));
   }
 });
 
@@ -120,8 +155,7 @@ function updateAvailableOptions() {
   });
 }
 
-// --- Patient Form Submit (calls POST /patients) ---
-
+// ✅ PATIENT CRUD
 function addPatientForm(event) {
   event.preventDefault();
 
@@ -151,7 +185,7 @@ function addPatientForm(event) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(newPatient)
   })
-    .then((res) => {
+    .then(res => {
       if (!res.ok) throw new Error("Failed to save patient.");
       return res.json();
     })
@@ -161,10 +195,8 @@ function addPatientForm(event) {
       generateMedicationDropdowns();
       loadPatients();
     })
-    .catch((err) => alert(err.message));
+    .catch(err => alert(err.message));
 }
-
-// --- Load Patients from backend (GET /patients) ---
 
 function loadPatients() {
   const tableBody = document.querySelector("#patients-table tbody");
@@ -195,8 +227,6 @@ function loadPatients() {
     });
 }
 
-// --- Delete Patient (DELETE /patients/:id) ---
-
 function deletePatient(id) {
   fetch(`/patients/${id}`, { method: "DELETE" })
     .then(res => {
@@ -206,18 +236,112 @@ function deletePatient(id) {
     .catch(err => alert(err.message));
 }
 
-// --- Optional: Dark Mode Toggle ---
-function toggleDarkMode() {
-  document.body.classList.toggle("dark");
-}
-// ✅ Apply dark mode on page load if user previously enabled it
-if (localStorage.getItem("darkMode") === "enabled") {
-  document.body.classList.add("dark");
+// ✅ PROVIDERS CRUD & FILTER
+let allProviders = [];
+
+function loadProviders() {
+  fetch("/providers")
+    .then(res => res.json())
+    .then(providers => {
+      allProviders = providers;
+      renderProviderTable(providers);
+      populateSpecialtyFilter(providers);
+    });
 }
 
-// ✅ Toggle dark mode and store preference
-function toggleDarkMode() {
-  const isDark = document.body.classList.toggle("dark");
-  localStorage.setItem("darkMode", isDark ? "enabled" : "disabled");
+function renderProviderTable(providers) {
+  const table = document.querySelector("#providers-table tbody");
+  table.innerHTML = "";
+
+  providers.forEach((provider, index) => {
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+      <td>${index + 1}</td>
+      <td><a href="#" onclick="viewProvider(${provider.id})">${provider.name}</a></td>
+      <td>${provider.specialty}</td>
+      <td>${provider.contact}</td>
+      <td>
+        <button onclick="editProvider(${provider.id})">✏️ Edit</button>
+        <button onclick="deleteProvider(${provider.id})">🗑️ Delete</button>
+      </td>
+    `;
+
+    table.appendChild(row);
+  });
 }
 
+function addProviderForm(event) {
+  event.preventDefault();
+  const form = event.target;
+
+  const provider = {
+    id: Date.now(),
+    name: form.name.value.trim(),
+    specialty: form.specialty.value.trim(),
+    contact: form.contact.value.trim()
+  };
+
+  fetch("/providers", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(provider)
+  }).then(() => {
+    form.reset();
+    loadProviders();
+  });
+}
+
+function deleteProvider(id) {
+  if (!confirm("Are you sure you want to delete this provider?")) return;
+
+  fetch(`/providers/${id}`, { method: "DELETE" })
+    .then(res => {
+      if (!res.ok) throw new Error("Delete failed");
+      loadProviders();
+    })
+    .catch(err => alert(err.message));
+}
+
+function editProvider(id) {
+  const provider = allProviders.find(p => p.id === id);
+  if (!provider) return;
+
+  const name = prompt("Edit name:", provider.name);
+  const specialty = prompt("Edit specialty:", provider.specialty);
+  const contact = prompt("Edit contact:", provider.contact);
+
+  if (name && specialty && contact) {
+    fetch(`/providers/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, specialty, contact })
+    }).then(() => loadProviders());
+  }
+}
+
+function populateSpecialtyFilter(providers) {
+  const filter = document.getElementById("specialtyFilter");
+  if (!filter) return;
+
+  const specialties = [...new Set(providers.map(p => p.specialty))];
+  filter.innerHTML = `<option value="all">All Specialties</option>` +
+    specialties.map(s => `<option value="${s}">${s}</option>`).join("");
+}
+
+function filterBySpecialty() {
+  const selected = document.getElementById("specialtyFilter").value;
+  if (selected === "all") {
+    renderProviderTable(allProviders);
+  } else {
+    const filtered = allProviders.filter(p => p.specialty === selected);
+    renderProviderTable(filtered);
+  }
+}
+
+function viewProvider(id) {
+  const p = allProviders.find(p => p.id === id);
+  if (!p) return;
+
+  alert(`👨‍⚕️ ${p.name}\nSpecialty: ${p.specialty}\nContact: ${p.contact}`);
+}

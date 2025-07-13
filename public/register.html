@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Register</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-brand">HealthDash</div>
+    <ul class="nav-links">
+      <li><a href="index.html">🏠 Home</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="login.html" class="toggle-dark">🔐 Login</a>
+      <button onclick="toggleDarkMode()" class="toggle-dark">🌙</button>
+    </div>
+  </nav>
+
+  <form onsubmit="register(event)">
+  <h2>Register</h2>
+
+  <label>Email (Username):</label>
+  <input type="email" name="username" required />
+
+  <label>Password:</label>
+  <div style="display: flex; gap: 0.5rem;">
+    <input type="text" name="password" id="password" required
+           minlength="8"
+           pattern="^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$"
+           style="flex: 1;" />
+    <button type="button" onclick="generatePassword()">🔁</button>
+  </div>
+  <small style="display:block;margin-bottom:1rem;color:gray;">
+    Must be at least 8 characters and include a number.
+  </small>
+
+  <label>Role:</label>
+  <select name="role">
+    <option value="provider">Provider</option>
+    <option value="readonly">Read Only</option>
+  </select>
+
+  <button type="submit">📝 Register</button>
+</form>
+
+
+
+  <script>
+    function register(e) {
+      e.preventDefault();
+      const form = e.target;
+      fetch("/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: form.username.value,
+          password: form.password.value,
+          role: form.role.value
+        })
+      }).then(res => {
+        if (!res.ok) return alert("Registration failed");
+        return res.json();
+      }).then(user => {
+        alert("Welcome " + user.username + "!");
+        window.location.href = "index.html";
+      });
+    }
+
+    function toggleDarkMode() {
+      const isDark = document.body.classList.toggle("dark");
+      localStorage.setItem("darkMode", isDark ? "enabled" : "disabled");
+    }
+  </script>
+ <script>
+  function generatePassword() {
+    const letters = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
+    const numbers = "0123456789";
+
+    function pick(str, count) {
+      return Array.from({ length: count }, () =>
+        str[Math.floor(Math.random() * str.length)]
+      ).join("");
+    }
+
+    const password =
+      pick(letters, 6) + pick(numbers, 2); // 6 letters + 2 numbers
+
+    document.getElementById("password").value = password;
+  }
+</script>
+
+
+</body>
+</html>

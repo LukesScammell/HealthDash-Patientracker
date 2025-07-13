@@ -2,34 +2,59 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Health Records Home</title>
+  <title>HealthDash Home</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+     <!-- ✅ Auth Check -->
+  <script>
+  fetch("/me").catch(() => {
+    localStorage.setItem("redirectAfterLogin", window.location.pathname);
+    window.location.href = "login.html";
+  });
+</script>
+  <!-- Include the nav -->
+<div id="nav-placeholder"></div>
+<script>
+  fetch("nav.html")
+    .then(res => res.text())
+    .then(html => {
+      document.getElementById("nav-placeholder").innerHTML = html;
+    });
+</script>
 
-  <!-- ✅ Unified Navigation -->
-  <nav class="navbar">
-    <div class="nav-brand">HealthDash</div>
-    <ul class="nav-links">
-      <li><a href="index.html" class="active">🏠 Home</a></li>
-      <li><a href="patients.html">🧑‍⚕️ Patients</a></li>
-      <li><a href="providers.html">👨‍🔬 Providers</a></li>
-    </ul>
-    <button onclick="toggleDarkMode()" class="toggle-dark">🌙</button>
-  </nav>
-
-  <!-- ✅ Page Content -->
   <div class="container">
-    <h1>Welcome to the Health Records System</h1>
-    <p>This system allows you to view and manage patient and provider records in one place.</p>
-
-    <ul style="margin-top: 2rem;">
-      <li><a href="patients.html">📋 Go to Patient Records →</a></li>
-      <li><a href="providers.html">👨‍⚕️ Go to Health Providers →</a></li>
-    </ul>
+    <h1>Welcome to HealthDash</h1>
+    <p>Manage patients and healthcare providers securely.</p>
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    fetch("/me")
+      .then(res => {
+        if (!res.ok) throw new Error();
+        return res.json();
+      })
+      .then(user => {
+        document.getElementById("nav-user").textContent = "👋 " + user.username;
+        document.querySelectorAll(".nav-auth").forEach(el => el.style.display = "inline-block");
+        document.getElementById("login-btn").style.display = "none";
+        document.getElementById("logout-btn").style.display = "inline-block";
+      })
+      .catch(() => {
+        document.querySelectorAll(".nav-auth").forEach(el => el.remove());
+        document.getElementById("login-btn").style.display = "inline-block";
+        document.getElementById("logout-btn").style.display = "none";
+      });
+
+    function logout() {
+      fetch("/logout", { method: "POST" }).then(() => location.href = "login.html");
+    }
+
+    function toggleDarkMode() {
+      const isDark = document.body.classList.toggle("dark");
+      localStorage.setItem("darkMode", isDark ? "enabled" : "disabled");
+    }
+  </script>
 </body>
 </html>
