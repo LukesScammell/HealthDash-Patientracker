@@ -295,3 +295,82 @@ body.dark th, body.dark td {
     align-items: flex-start;
   }
 }
+/* ========== SELECT MEDS STYLING ========== */
+#medicationDropdowns {
+  margin-top: 1rem;
+}
+
+.custom-select-wrapper {
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+.custom-select {
+  position: relative;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fdfdfd;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.selected-option {
+  color: #444;
+}
+
+.select-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  border: 1px solid #ccc;
+  border-top: none;
+  background-color: #fff;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 999;
+  transition: background 0.3s ease;
+}
+
+.select-options .option {
+  padding: 0.6rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  cursor: pointer;
+  border-bottom: 1px solid #f1f1f1;
+  transition: background 0.2s ease;
+}
+
+.select-options .option:hover {
+  background-color: #eaf4ff;
+}
+
+.select-options.hidden {
+  display: none;
+}
+
+/* === DARK MODE SUPPORT === */
+body.dark .custom-select {
+  background-color: #222;
+  border-color: #444;
+}
+
+body.dark .selected-option {
+  color: #eee;
+}
+
+body.dark .select-options {
+  background-color: #2b2b2b;
+  border-color: #444;
+}
+
+body.dark .select-options .option {
+  border-bottom: 1px solid #333;
+  color: #eee;
+}
+
+body.dark .select-options .option:hover {
+  background-color: #444;
+}
