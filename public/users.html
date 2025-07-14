@@ -7,20 +7,8 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body onload="loadUsers()">
-  <nav class="navbar">
-    <div class="nav-brand">HealthDash</div>
-    <ul class="nav-links">
-      <li><a href="index.html">🏠 Home</a></li>
-      <li><a href="patients.html">🧑‍⚕️ Patients</a></li>
-      <li><a href="providers.html">👨‍🔬 Providers</a></li>
-    </ul>
-    <div class="nav-actions">
-      <span id="nav-user"></span>
-      <a href="login.html" id="login-btn" class="toggle-dark">🔐 Login</a>
-      <button id="logout-btn" onclick="logout()" class="toggle-dark" style="display:none">🚪 Logout</button>
-      <button onclick="toggleDarkMode()" class="toggle-dark">🌙</button>
-    </div>
-  </nav>
+  <div id="nav-placeholder"></div>
+<script src="script.js"></script>
 
   <div class="container">
     <h2>Registered Users</h2>

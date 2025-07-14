@@ -1,4 +1,4 @@
-/* ========== RESET & GLOBAL ========== */
+/* === GLOBAL STYLES === */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -10,11 +10,36 @@ body {
   background-color: #f1f6fb;
   color: #333;
   padding: 2rem;
+  line-height: 1.6;
+}
+
+body.dark {
+  background-color: #111;
+  color: #eee;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
 }
 
 h1, h2 {
   color: #04578e;
   margin-bottom: 1rem;
+}
+
+body.dark h1,
+body.dark h2 {
+  color: #f1f1f1;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+body.dark p {
+  color: #ddd;
 }
 
 hr {
@@ -23,317 +48,8 @@ hr {
   margin: 2rem 0;
 }
 
-/* ========== FORM CARD ========== */
-form {
-  background: #ffffff;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
-  margin-bottom: 2rem;
-  max-width: 700px;
-}
-
-form label {
-  font-weight: 600;
-  margin-top: 1rem;
-  display: block;
-  color: #333;
-}
-
-form input,
-form textarea,
-form button {
-  width: 100%;
-  margin-top: 0.4rem;
-  margin-bottom: 1rem;
-  padding: 0.8rem 1rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 1rem;
-}
-
-form textarea {
-  resize: vertical;
-  min-height: 80px;
-}
-
-form button {
-  background-color: #0078d4;
-  color: #fff;
-  font-weight: bold;
-  border: none;
-  transition: background-color 0.3s ease;
-  cursor: pointer;
-}
-
-form button:hover {
-  background-color: #005fa3;
-}
-
-/* ========== SELECT MEDS STYLING ========== */
-#medicationDropdowns {
-  margin-top: 1rem;
-}
-
-.custom-select-wrapper {
-  margin-bottom: 1rem;
-}
-
-.custom-select {
-  position: relative;
-  padding: 0.75rem 1rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background-color: #fdfdfd;
-  cursor: pointer;
-}
-
-.selected-option {
-  color: #444;
-}
-
-.select-options {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  border: 1px solid #ccc;
-  border-top: none;
-  background-color: #fff;
-  max-height: 200px;
-  overflow-y: auto;
-  z-index: 999;
-}
-
-.select-options .option {
-  padding: 0.6rem 1rem;
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  cursor: pointer;
-  border-bottom: 1px solid #f1f1f1;
-}
-
-.select-options .option:hover {
-  background-color: #eaf4ff;
-}
-
-.select-options.hidden {
-  display: none;
-}
-
-/* ========== MEDICATION PREVIEW PILLS ========== */
-#selected-medication-preview {
-  margin-top: 1rem;
-}
-
-#selected-medication-preview > div {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  background-color: #e1efff;
-  border-radius: 20px;
-  padding: 0.4rem 0.8rem;
-  margin: 0.3rem;
-  font-size: 0.9rem;
-}
-
-/* ========== TABLE ========== */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 1rem;
-  background-color: #ffffff;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
-}
-
-table thead {
-  background-color: #e7f3ff;
-}
-
-table th, table td {
-  padding: 1rem;
-  text-align: left;
-  border-bottom: 1px solid #f0f0f0;
-}
-
-table th {
-  color: #04578e;
-  font-weight: 600;
-}
-
-table td img {
-  vertical-align: middle;
-  border-radius: 4px;
-}
-
-table td button {
-  background-color: #e74c3c;
-  color: white;
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-table td button:hover {
-  background-color: #c0392b;
-}
-
-/* ========== IMPROVED DARK MODE ========== */
-
-body.dark {
-  background-color: #121212;
-  color: #f1f1f1;
-}
-
-/* Form Container */
-body.dark form {
-  background-color: #1f1f1f;
-  border: 1px solid #2d2d2d;
-  color: #f1f1f1;
-}
-
-/* Form Elements */
-body.dark form input,
-body.dark form textarea {
-  background-color: #2a2a2a;
-  color: #ffffff;
-  border: 1px solid #444;
-}
-
-body.dark form input::placeholder,
-body.dark form textarea::placeholder {
-  color: #aaa;
-}
-
-body.dark label {
-  color: #cccccc;
-}
-
-body.dark form button {
-  background-color: #0078d4;
-  color: white;
-}
-
-body.dark form button:hover {
-  background-color: #005fa3;
-}
-
-/* Medication Preview Pills */
-body.dark #selected-medication-preview > div {
-  background-color: #2d4f6d;
-  color: #f0f0f0;
-  border: 1px solid #3c3c3c;
-}
-
-/* Table */
-body.dark table {
-  background-color: #1e1e1e;
-  color: #e0e0e0;
-  border: none;
-}
-
-body.dark table th {
-  background-color: #2c2c2c;
-  color: #ffffff;
-}
-
-body.dark table td {
-  background-color: #1e1e1e;
-  color: #dddddd;
-  border-bottom: 1px solid #333;
-}
-
-body.dark table td button {
-  background-color: #c0392b;
-  color: white;
-}
-
-body.dark table td button:hover {
-  background-color: #e74c3c;
-}
-
-/* Custom Selects */
-body.dark .custom-select {
-  background-color: #2b2b2b;
-  color: #f1f1f1;
-  border: 1px solid #555;
-}
-
-body.dark .select-options {
-  background-color: #2b2b2b;
-  border: 1px solid #444;
-}
-
-body.dark .select-options .option {
-  color: #f0f0f0;
-  border-bottom: 1px solid #444;
-}
-
-body.dark .select-options .option:hover {
-  background-color: #3d3d3d;
-}
-/* === LOGIN PAGE STYLES === */
-form {
-  max-width: 400px;
-  margin: 3rem auto;
-  background: #f8f8f8;
-  padding: 2rem;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-form h2 {
-  text-align: center;
-  margin-bottom: 1rem;
-}
-
-form input {
-  width: 100%;
-  padding: 10px;
-  margin: 0.75rem 0;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 1rem;
-}
-
-form button {
-  width: 100%;
-  padding: 10px;
-  background-color: #0078d4;
-  color: white;
-  font-weight: bold;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-form button:hover {
-  background-color: #005fa3;
-}
-
-/* === DARK MODE FOR LOGIN === */
-body.dark form {
-  background-color: #1f1f1f;
-  color: #f1f1f1;
-}
-
-body.dark form input {
-  background-color: #2a2a2a;
-  color: #ffffff;
-  border: 1px solid #444;
-}
-
-body.dark form button {
-  background-color: #2d88ff;
-}
-
-body.dark form button:hover {
-  background-color: #1669c1;
+body.dark hr {
+  border-color: #444;
 }
 
 /* === NAVIGATION BAR === */
@@ -343,6 +59,10 @@ body.dark form button:hover {
   padding: 1rem 1.5rem;
   border-radius: 8px;
   margin-bottom: 2rem;
+}
+
+body.dark .navbar {
+  background-color: #222;
 }
 
 .nav-container {
@@ -394,6 +114,15 @@ body.dark form button:hover {
   background-color: #005fa3;
 }
 
+body.dark .nav-links li a {
+  color: #ddd;
+}
+
+body.dark .nav-links li a:hover,
+body.dark .nav-links li a.active {
+  background-color: #333;
+}
+
 .nav-actions {
   display: flex;
   align-items: center;
@@ -415,23 +144,96 @@ body.dark form button:hover {
   background: #ffffff33;
 }
 
-/* === DARK MODE === */
-body.dark .navbar {
-  background-color: #222;
-}
-body.dark .nav-links li a {
-  color: #ddd;
-}
-body.dark .nav-links li a:hover,
-body.dark .nav-links li a.active {
-  background-color: #333;
-}
 body.dark .toggle-dark {
   background: #444;
   color: #eee;
 }
 
-/* === RESPONSIVE === */
+/* === FORMS === */
+form {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+body.dark form {
+  background: #1e1e1e;
+  color: #eee;
+}
+
+label {
+  display: block;
+  margin: 1rem 0 0.5rem;
+  font-weight: 600;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+body.dark input,
+body.dark select,
+body.dark textarea {
+  background: #333;
+  color: #eee;
+  border-color: #555;
+}
+
+button {
+  background-color: #0078d4;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+button:hover {
+  background-color: #005fa3;
+}
+
+body.dark button {
+  background-color: #444;
+}
+
+body.dark button:hover {
+  background-color: #666;
+}
+
+/* === TABLES === */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1.5rem;
+}
+
+th, td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #ccc;
+}
+
+thead {
+  background: #f1f1f1;
+}
+
+body.dark thead {
+  background: #333;
+}
+
+body.dark th, body.dark td {
+  border-color: #555;
+}
+
+/* === RESPONSIVE NAVIGATION === */
 @media (max-width: 768px) {
   .navbar {
     display: flex;
@@ -440,6 +242,10 @@ body.dark .toggle-dark {
     background-color: #0078d4;
     border-radius: 8px;
     transition: background-color 0.3s ease;
+  }
+
+  body.dark .navbar {
+    background-color: #1e1e1e;
   }
 
   .nav-container {
@@ -451,34 +257,28 @@ body.dark .toggle-dark {
 
   .nav-toggle {
     display: inline;
-    font-size: 1.8rem;
-    background: none;
-    border: none;
-    color: white;
-    cursor: pointer;
   }
 
   .nav-expand {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  margin-top: 1rem;
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 1rem;
+    opacity: 0;
+    transform: translateY(-10px);
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    pointer-events: none;
+  }
 
-  opacity: 0;
-  transform: translateY(-10px);
-  max-height: 0;
-  overflow: hidden;
-  transition: all 0.3s ease;
-  pointer-events: none;
-}
-
-.nav-expand.show {
-  opacity: 1;
-  transform: translateY(0);
-  max-height: 500px; /* make sure this is big enough for all content */
-  pointer-events: auto;
-}
-
+  .nav-expand.show {
+    display: flex;
+    opacity: 1;
+    transform: translateY(0);
+    max-height: 500px;
+    pointer-events: auto;
+  }
 
   .nav-links,
   .nav-actions {
@@ -493,9 +293,5 @@ body.dark .toggle-dark {
 
   .nav-actions {
     align-items: flex-start;
-  }
-
-  body.dark .navbar {
-    background-color: #1e1e1e;
   }
 }
