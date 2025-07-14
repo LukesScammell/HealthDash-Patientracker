@@ -430,10 +430,12 @@ if (window.location.pathname.includes("patients.html")) {
           document.getElementById("register-btn").style.display = "none";
           document.getElementById("logout-btn").style.display = "inline-block";
 
-          if (user.role === "provider") {
-            document.querySelectorAll(".nav-users").forEach(el => el.style.display = "inline-block");
+          if (user.role === "patient") {
+         document.querySelectorAll(".nav-patient").forEach(el => el.style.display = "inline-block");
           }
-
+        if (user.role === "provider") {
+  document.querySelectorAll(".nav-provider").forEach(el => el.style.display = "inline-block");
+    }
           // ✅ Load page-specific data only after nav and auth complete
           if (window.location.pathname.includes("patients.html") && typeof loadPatients === "function") {
             loadPatients();

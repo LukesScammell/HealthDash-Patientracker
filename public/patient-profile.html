@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>My Profile</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="nav-placeholder"></div>
+  <div class="container">
+    <h2>My Patient Profile</h2>
+    <div id="profile-content">Loading...</div>
+  </div>
+  <script src="script.js"></script>
+  <script>
+  fetch("/me")
+    .then(res => res.json())
+    .then(user => {
+      if (user.role !== "patient") return location.href = "index.html";
+      return fetch("/patients/me");
+    })
+    .then(res => res.json())
+    .then(async patient => {
+      const container = document.getElementById("profile-content");
+
+      // 🩺 Render medications
+      const meds = (patient.medications || []).map(m =>
+        `<li><img src="${m.image}" width="32"/> ${m.name}</li>`
+      ).join("") || "<li>No medications prescribed.</li>";
+
+      // 🧑‍⚕️ Fetch providers to match assigned one
+      let providerHTML = `<p><strong>Provider:</strong> ${patient.providerUsername || "None assigned"}</p>`;
+      if (patient.providerUsername) {
+        try {
+          const res = await fetch("/providers");
+          const providers = await res.json();
+          const match = providers.find(p =>
+            p.contact === patient.providerUsername || p.name === patient.providerUsername
+          );
+
+          if (match) {
+            providerHTML = `
+              <p><strong>Provider:</strong> ${match.name}</p>
+              <p><strong>Specialty:</strong> ${match.specialty}</p>
+              <p><strong>Contact:</strong> ${match.contact}</p>
+            `;
+          }
+        } catch (err) {
+          console.error("Failed to fetch provider info:", err);
+        }
+      }
+
+      // 👤 Fill the profile
+      container.innerHTML = `
+        <p><strong>Name:</strong> ${patient.first} ${patient.last}</p>
+        <p><strong>Disease:</strong> ${patient.disease || "Not specified"}</p>
+        <p><strong>Description:</strong> ${patient.description || "None"}</p>
+        ${providerHTML}
+        <p><strong>Prescribed Medications:</strong></p>
+        <ul>${meds}</ul>
+      `;
+    })
+    .catch(() => location.href = "login.html");
+</script>
+
+</body>
+</html>

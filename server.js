@@ -14,14 +14,14 @@ const patientSchema = new mongoose.Schema({
   first: String,
   last: String,
   disease: String,
+  description: String,
   medications: [
-    {
-      name: String,
-      image: String
-    }
+    { name: String, image: String }
   ],
-  description: String
+  providerUsername: String,  // 👨‍⚕️ Assigned provider
+  patientUsername: String    // 👤 Linked patient account
 });
+
 const Patient = mongoose.model("Patient", patientSchema);
 
 const userSchema = new mongoose.Schema({
@@ -116,24 +116,66 @@ app.delete("/patients/:id", authRequired, async (req, res) => {
   res.sendStatus(204);
 });
 
-app.post("/register", async (req, res) => {
-  const { username, password } = req.body;
-  const role = "provider"; // 🔐 Force it here
+// Get current patient profile (for logged-in patient)
+app.get("/patients/me", authRequired, async (req, res) => {
+  if (req.session.user.role !== "patient") return res.status(403).send("Forbidden");
+  const patient = await Patient.findOne({ patientUsername: req.session.user.username });
+  if (!patient) return res.status(404).send("No patient profile found.");
+  res.json(patient);
+});
 
-  if (!username || !password) {
-    return res.status(400).send("Username and password are required.");
+// Get patients assigned to a provider
+app.get("/patients/provider", authRequired, async (req, res) => {
+  if (req.session.user.role !== "provider") return res.status(403).send("Forbidden");
+  const patients = await Patient.find({ providerUsername: req.session.user.username });
+  res.json(patients);
+});
+
+// Update patient (for providers)
+app.put("/patients/:id", authRequired, async (req, res) => {
+  if (req.session.user.role !== "provider") return res.status(403).send("Forbidden");
+  const updated = await Patient.findByIdAndUpdate(req.params.id, req.body, { new: true });
+  res.json(updated);
+});
+
+
+app.post("/register", async (req, res) => {
+  const { username, password, role } = req.body;
+
+  if (!username || !password || !role) {
+    return res.status(400).send("Missing fields");
+  }
+
+  if (!["patient", "provider"].includes(role)) {
+    return res.status(400).send("Invalid role");
   }
 
   const existingUser = await User.findOne({ username });
   if (existingUser) {
-    return res.status(409).send("User already exists.");
+    return res.status(409).send("User already exists");
   }
 
   const hashed = await bcrypt.hash(password, 10);
   const newUser = await User.create({ username, password: hashed, role });
+
+  // Optional: create patient profile
+  if (role === "patient") {
+    await Patient.create({
+      first: "New",
+      last: "Patient",
+      disease: "Not specified",
+      description: "",
+      medications: [],
+      patientUsername: username,
+      providerUsername: ""
+    });
+  }
+
   console.log("✅ Registered user:", newUser);
   res.status(201).send("User registered");
 });
+
+
 
 // Dev-only route to see all users (do NOT include in production)
 app.get("/users", async (req, res) => {

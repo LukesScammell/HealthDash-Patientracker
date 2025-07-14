@@ -2,33 +2,54 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>HealthDash Home</title>
+  <title>Register</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-<div id="nav-placeholder"></div>
-<script src="script.js"></script>
+  <div id="nav-placeholder"></div>
+  <script src="script.js"></script>
 
-  <form action="/register" method="POST">
+  <form id="register-form">
     <h2>Create Account</h2>
 
     <label for="username">Email:</label>
-    <input type="email" id="username" name="username" required placeholder="you@example.com" />
+    <input type="email" id="username" name="username" required />
 
     <label for="password">Password:</label>
-    <input
-      type="password"
-      id="password"
-      name="password"
-      required
-      minlength="8"
-      placeholder="Enter your password"
-    />
+    <input type="password" id="password" name="password" required minlength="8" />
 
-    <input type="hidden" name="role" value="provider" />
+    <label for="role">Role:</label>
+    <select id="role" name="role" required>
+      <option value="provider">Provider</option>
+      <option value="patient">Patient</option>
+    </select>
 
     <button type="submit">Register</button>
   </form>
+
+  <script>
+    document.getElementById("register-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+      const role = document.getElementById("role").value;
+
+      const res = await fetch("/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password, role })
+      });
+
+      if (res.ok) {
+        alert("Registration successful!");
+        window.location.href = "login.html";
+      } else {
+        const msg = await res.text();
+        alert("Error: " + msg);
+      }
+    });
+  </script>
 </body>
 </html>
