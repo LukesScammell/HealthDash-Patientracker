@@ -1,75 +1,3 @@
-/* ========== NAVIGATION BAR ========== */
-
-.navbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: #0078d4;
-  padding: 1rem 2rem;
-  border-radius: 8px;
-  margin-bottom: 2rem;
-  color: white;
-}
-
-.nav-brand {
-  font-size: 1.5rem;
-  font-weight: bold;
-  letter-spacing: 0.5px;
-}
-
-.nav-links {
-  list-style: none;
-  display: flex;
-  gap: 1.5rem;
-}
-
-.nav-links li a {
-  color: white;
-  text-decoration: none;
-  font-weight: 500;
-  padding: 6px 10px;
-  border-radius: 6px;
-  transition: background 0.2s ease;
-}
-
-.nav-links li a:hover,
-.nav-links li a.active {
-  background-color: #005fa3;
-}
-
-.toggle-dark {
-  background: #ffffff22;
-  border: none;
-  color: white;
-  font-size: 1.1rem;
-  border-radius: 6px;
-  padding: 6px 12px;
-  cursor: pointer;
-}
-
-.toggle-dark:hover {
-  background: #ffffff33;
-}
-
-/* ========== DARK MODE NAV ========== */
-body.dark .navbar {
-  background-color: #222;
-}
-
-body.dark .nav-links li a {
-  color: #ddd;
-}
-
-body.dark .nav-links li a.active,
-body.dark .nav-links li a:hover {
-  background-color: #333;
-}
-
-body.dark .toggle-dark {
-  background: #444;
-  color: #eee;
-}
-
 /* ========== RESET & GLOBAL ========== */
 * {
   box-sizing: border-box;
@@ -408,58 +336,166 @@ body.dark form button:hover {
   background-color: #1669c1;
 }
 
-/* === RESPONSIVE MOBILE NAVIGATION === */
+/* === NAVIGATION BAR === */
+.navbar {
+  background-color: #0078d4;
+  color: white;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+
 .nav-container {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  width: 100%;
+  align-items: center;
+}
+
+.nav-brand {
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 
 .nav-toggle {
-  font-size: 1.5rem;
   display: none;
+  font-size: 1.8rem;
   background: none;
   border: none;
   color: white;
   cursor: pointer;
 }
 
+/* Nav Content */
+.nav-expand {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.nav-links li a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+  display: block;
+}
+
+.nav-links li a:hover,
+.nav-links li a.active {
+  background-color: #005fa3;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.toggle-dark {
+  background: #ffffff22;
+  border: none;
+  color: white;
+  font-size: 1rem;
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.toggle-dark:hover {
+  background: #ffffff33;
+}
+
+/* === DARK MODE === */
+body.dark .navbar {
+  background-color: #222;
+}
+body.dark .nav-links li a {
+  color: #ddd;
+}
+body.dark .nav-links li a:hover,
+body.dark .nav-links li a.active {
+  background-color: #333;
+}
+body.dark .toggle-dark {
+  background: #444;
+  color: #eee;
+}
+
+/* === RESPONSIVE === */
 @media (max-width: 768px) {
+  .navbar {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    background-color: #0078d4;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+  }
+
+  .nav-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
   .nav-toggle {
     display: inline;
+    font-size: 1.8rem;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
   }
 
-  .nav-links {
-    display: none;
-    flex-direction: column;
-    background-color: #0078d4;
-    padding: 1rem;
-    margin-top: 1rem;
-    border-radius: 8px;
-  }
+  .nav-expand {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 1rem;
 
-  .nav-links.show {
-    display: flex;
-  }
+  opacity: 0;
+  transform: translateY(-10px);
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
 
-  .nav-links li {
-    padding: 0.5rem 0;
-  }
+.nav-expand.show {
+  opacity: 1;
+  transform: translateY(0);
+  max-height: 500px; /* make sure this is big enough for all content */
+  pointer-events: auto;
+}
 
+
+  .nav-links,
   .nav-actions {
     flex-direction: column;
-    align-items: flex-start;
-    margin-top: 1rem;
-    gap: 0.5rem;
+    width: 100%;
+    gap: 0.75rem;
   }
 
   .nav-links li a {
-    display: block;
     width: 100%;
   }
 
-  body.dark .nav-links {
+  .nav-actions {
+    align-items: flex-start;
+  }
+
+  body.dark .navbar {
     background-color: #1e1e1e;
   }
 }

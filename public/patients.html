@@ -7,22 +7,8 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body onload="loadPatients(); generateMedicationDropdowns();">
-        <!-- ✅ Auth Check -->
-  <script>
-  fetch("/me").catch(() => {
-    localStorage.setItem("redirectAfterLogin", window.location.pathname);
-    window.location.href = "login.html";
-  });
-</script>
-  <!-- Include the nav -->
-<div id="nav-placeholder"></div>
-<script>
-  fetch("nav.html")
-    .then(res => res.text())
-    .then(html => {
-      document.getElementById("nav-placeholder").innerHTML = html;
-    });
-</script>
+       <div id="nav-placeholder"></div>
+<script src="script.js"></script>
   <!-- ✅ PAGE TITLE -->
   <h1>Patient Management</h1>
 

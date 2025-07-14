@@ -1,60 +1,23 @@
 <nav class="navbar">
   <div class="nav-container">
     <div class="nav-brand">HealthDash</div>
-    <button class="nav-toggle" onclick="toggleMenu()">☰</button>
+    <button class="nav-toggle" aria-label="Toggle menu">☰</button>
   </div>
 
-  <ul class="nav-links" id="nav-links">
-    <li><a href="index.html">🏠 Home</a></li>
-    <li class="nav-auth" style="display:none;"><a href="patients.html">🧑‍⚕️ Patients</a></li>
-    <li class="nav-auth" style="display:none;"><a href="providers.html">👨‍🔬 Providers</a></li>
-    <li class="nav-users" style="display:none;"><a href="users.html">🧑‍💼 Users</a></li>
-  </ul>
+  <div class="nav-expand" id="nav-expand">
+    <ul class="nav-links">
+      <li><a href="index.html">🏠 Home</a></li>
+      <li class="nav-auth" style="display:none;"><a href="patients.html">🧑‍⚕️ Patients</a></li>
+      <li class="nav-auth" style="display:none;"><a href="providers.html">👨‍🔬 Providers</a></li>
+      <li class="nav-users" style="display:none;"><a href="users.html">🧑‍💼 Users</a></li>
+    </ul>
 
-  <div class="nav-actions">
-    <span id="nav-user" style="margin-right: 1rem;"></span>
-    <a id="login-btn" href="login.html" class="toggle-dark">🔐 Login</a>
-    <a id="register-btn" href="register.html" class="toggle-dark">📝 Register</a>
-    <button id="logout-btn" onclick="logout()" class="toggle-dark" style="display:none;">🚪 Logout</button>
-    <button onclick="toggleDarkMode()" class="toggle-dark">🌙</button>
+    <div class="nav-actions">
+      <span id="nav-user" style="margin-right: 1rem;"></span>
+      <a id="login-btn" href="login.html" class="toggle-dark">🔐 Login</a>
+      <a id="register-btn" href="register.html" class="toggle-dark">📝 Register</a>
+      <button id="logout-btn" class="toggle-dark" style="display:none;">🚪 Logout</button>
+      <button onclick="toggleDarkMode()" class="toggle-dark">🌙</button>
+    </div>
   </div>
 </nav>
-
-<script>
-  function toggleMenu() {
-    document.getElementById("nav-links").classList.toggle("show");
-  }
-
-  function toggleDarkMode() {
-    const isDark = document.body.classList.toggle("dark");
-    localStorage.setItem("darkMode", isDark ? "enabled" : "disabled");
-  }
-
-  function logout() {
-    fetch("/logout", { method: "POST" }).then(() => location.href = "login.html");
-  }
-
-  fetch("/me", { credentials: "include", cache: "no-store" })
-    .then(res => {
-      if (!res.ok) throw new Error("Not logged in");
-      return res.json();
-    })
-    .then(user => {
-      document.getElementById("nav-user").textContent = "👋 " + user.username;
-      document.querySelectorAll(".nav-auth").forEach(el => el.style.display = "inline-block");
-      document.getElementById("login-btn").style.display = "none";
-      document.getElementById("register-btn").style.display = "none";
-      document.getElementById("logout-btn").style.display = "inline-block";
-
-      if (user.role === "provider") {
-        document.querySelectorAll(".nav-users").forEach(el => el.style.display = "inline-block");
-      }
-    })
-    .catch(() => {
-      document.querySelectorAll(".nav-auth").forEach(el => el.remove());
-      document.querySelectorAll(".nav-users").forEach(el => el.remove());
-      document.getElementById("login-btn").style.display = "inline-block";
-      document.getElementById("register-btn").style.display = "inline-block";
-      document.getElementById("logout-btn").style.display = "none";
-    });
-</script>

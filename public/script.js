@@ -22,19 +22,6 @@ function logout() {
   fetch("/logout", { method: "POST" }).then(() => location.href = "login.html");
 }
 
-// Show nav links if logged in
-fetch("/me")
-  .then(res => res.json())
-  .then(user => {
-    document.getElementById("nav-user").innerText = "👋 " + user.username;
-    document.querySelectorAll(".nav-auth").forEach(el => el.style.display = "inline");
-  })
-  .catch(() => {
-    document.querySelectorAll(".nav-auth").forEach(el => el.remove());
-    const logoutBtn = document.querySelector("button[onclick='logout()']");
-    if (logoutBtn) logoutBtn.style.display = "none";
-  });
-
 
 // ✅ Medication Dropdowns UI
 function generateMedicationDropdowns() {
@@ -338,37 +325,83 @@ function viewProvider(id) {
 
   alert(`👨‍⚕️ ${p.name}\nSpecialty: ${p.specialty}\nContact: ${p.contact}`);
 }
-// Wait for nav to be loaded before running auth logic
-window.addEventListener("DOMContentLoaded", () => {
-  fetch("nav.html")
-    .then(res => res.text())
-    .then(html => {
-      document.getElementById("nav-placeholder").innerHTML = html;
+// script.js
 
-      // Auth check after nav injection
-      fetch("/me", { cache: "no-store" })
-        .then(res => {
-          if (!res.ok) throw new Error("Not logged in");
-          return res.json();
-        })
-        .then(user => {
-          document.getElementById("nav-user").textContent = "👋 " + user.username;
-          document.querySelectorAll(".nav-auth").forEach(el => el.style.display = "inline-block");
-          document.getElementById("login-btn").style.display = "none";
-          document.getElementById("register-btn").style.display = "none";
-          document.getElementById("logout-btn").style.display = "inline-block";
+// Load the nav HTML dynamically
+// Load the nav and set everything up
+fetch("nav.html")
+  .then(res => res.text())
+  .then(html => {
+    document.getElementById("nav-placeholder").innerHTML = html;
 
-          if (user.role === "provider") {
-            document.querySelectorAll(".nav-users").forEach(el => el.style.display = "inline-block");
-          }
-        })
-        .catch(() => {
-          document.querySelectorAll(".nav-auth").forEach(el => el.remove());
-          document.querySelectorAll(".nav-users").forEach(el => el.remove());
-          document.getElementById("login-btn").style.display = "inline-block";
-          document.getElementById("register-btn").style.display = "inline-block";
-          document.getElementById("logout-btn").style.display = "none";
-        });
-    });
-});
+    // ✅ Set up nav toggle
+    const toggleBtn = document.querySelector(".nav-toggle");
+    const navExpand = document.getElementById("nav-expand");
+    if (toggleBtn && navExpand) {
+      toggleBtn.addEventListener("click", () => {
+        navExpand.classList.toggle("show");
+      });
+    }
+
+    // ✅ Set up dark mode
+    const darkBtn = document.querySelector("button[onclick='toggleDarkMode()']");
+    if (darkBtn) {
+      darkBtn.addEventListener("click", () => {
+        const isDark = document.body.classList.toggle("dark");
+        localStorage.setItem("darkMode", isDark ? "enabled" : "disabled");
+      });
+    }
+
+    // ✅ Set up logout
+    const logoutBtn = document.getElementById("logout-btn");
+    if (logoutBtn) {
+      logoutBtn.addEventListener("click", () => {
+        fetch("/logout", { method: "POST" }).then(() => location.href = "login.html");
+      });
+    }
+
+    // ✅ Load dark mode preference
+    if (localStorage.getItem("darkMode") === "enabled") {
+      document.body.classList.add("dark");
+    }
+    
+
+    // ✅ Then handle login state
+    fetch("/me", { credentials: "include", cache: "no-store" })
+      .then(res => {
+        if (!res.ok) throw new Error("Not logged in");
+        return res.json();
+      })
+      .then(user => {
+        document.getElementById("nav-user").textContent = "👋 " + user.username;
+        document.querySelectorAll(".nav-auth").forEach(el => el.style.display = "inline-block");
+        document.getElementById("login-btn").style.display = "none";
+        document.getElementById("register-btn").style.display = "none";
+        document.getElementById("logout-btn").style.display = "inline-block";
+
+        if (user.role === "provider") {
+          document.querySelectorAll(".nav-users").forEach(el => el.style.display = "inline-block");
+        }
+      })
+      .catch(() => {
+        document.querySelectorAll(".nav-auth").forEach(el => el.remove());
+        document.querySelectorAll(".nav-users").forEach(el => el.remove());
+        document.getElementById("login-btn").style.display = "inline-block";
+        document.getElementById("register-btn").style.display = "inline-block";
+        document.getElementById("logout-btn").style.display = "none";
+      });
+      
+  });
+  // Inside fetch('nav.html') then block
+const toggleBtn = document.querySelector(".nav-toggle");
+const navExpand = document.getElementById("nav-expand");
+const navbar = document.querySelector(".navbar");
+
+if (toggleBtn && navExpand && navbar) {
+  toggleBtn.addEventListener("click", () => {
+    navExpand.classList.toggle("show");
+    navbar.classList.toggle("expanded");
+  });
+}
+
 
