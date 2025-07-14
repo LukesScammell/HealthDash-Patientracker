@@ -8,16 +8,14 @@
 </head>
 <body onload="loadProviders()">
 
-  <!-- ✅ Auth Check -->
+      <!-- ✅ Auth Check -->
   <script>
   fetch("/me").catch(() => {
     localStorage.setItem("redirectAfterLogin", window.location.pathname);
     window.location.href = "login.html";
   });
 </script>
-
-  <!-- ✅ Navigation -->
-<!-- Include the nav -->
+  <!-- Include the nav -->
 <div id="nav-placeholder"></div>
 <script>
   fetch("nav.html")

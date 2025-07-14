@@ -409,6 +409,13 @@ body.dark form button:hover {
 }
 
 /* === RESPONSIVE MOBILE NAVIGATION === */
+.nav-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
 .nav-toggle {
   font-size: 1.5rem;
   display: none;
@@ -427,7 +434,7 @@ body.dark form button:hover {
     display: none;
     flex-direction: column;
     background-color: #0078d4;
-    padding: 1rem 0;
+    padding: 1rem;
     margin-top: 1rem;
     border-radius: 8px;
   }
@@ -437,7 +444,14 @@ body.dark form button:hover {
   }
 
   .nav-links li {
-    padding: 0.5rem 1.25rem;
+    padding: 0.5rem 0;
+  }
+
+  .nav-actions {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 1rem;
+    gap: 0.5rem;
   }
 
   .nav-links li a {

@@ -7,16 +7,15 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body onload="loadPatients(); generateMedicationDropdowns();">
-   <!-- Include the nav -->
-<div id="nav-placeholder"></div>
-    <!-- ✅ Auth Check -->
+        <!-- ✅ Auth Check -->
   <script>
   fetch("/me").catch(() => {
     localStorage.setItem("redirectAfterLogin", window.location.pathname);
     window.location.href = "login.html";
   });
 </script>
- 
+  <!-- Include the nav -->
+<div id="nav-placeholder"></div>
 <script>
   fetch("nav.html")
     .then(res => res.text())

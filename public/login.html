@@ -2,69 +2,66 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Login</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <nav class="navbar">
-    <div class="nav-brand">HealthDash</div>
-    <ul class="nav-links">
-      <li><a href="index.html">🏠 Home</a></li>
-    </ul>
-    <div class="nav-actions">
-      <a href="register.html" class="toggle-dark">📝 Register</a>
-      <button onclick="toggleDarkMode()" class="toggle-dark">🌙</button>
-    </div>
-  </nav>
+     <!-- ✅ Auth Check -->
+  <script>
+  fetch("/me").catch(() => {
+    localStorage.setItem("redirectAfterLogin", window.location.pathname);
+    window.location.href = "login.html";
+  });
+</script>
+  <!-- Include the nav -->
+<div id="nav-placeholder"></div>
+<script>
+  fetch("nav.html")
+    .then(res => res.text())
+    .then(html => {
+      document.getElementById("nav-placeholder").innerHTML = html;
+    });
+</script>
 
-  <form onsubmit="login(event)">
+  <form id="login-form">
     <h2>Login</h2>
 
-    <label>Username:</label>
-    <input name="username" required />
+    <label for="username">Email:</label>
+    <input type="email" id="username" name="username" required placeholder="you@example.com" />
 
-    <label>Password:</label>
-    <input type="password" name="password" required />
+    <label for="password">Password:</label>
+    <input
+      type="password"
+      id="password"
+      name="password"
+      required
+      placeholder="Enter your password"
+    />
 
-    <!-- ✅ Forgot Password Link -->
-    <a href="forgot-password.html" style="display:block;margin:0.5rem 0;">Forgot password?</a>
-
-    <button type="submit">🔐 Log In</button>
+    <button type="submit">Login</button>
+    <p><a href="forgot-password.html">Forgot password?</a></p>
   </form>
 
   <script>
-    function login(e) {
+
+    document.getElementById("login-form").addEventListener("submit", async function (e) {
       e.preventDefault();
-      const form = e.target;
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
 
-      // Save the last intended page (optional, handled separately)
-      const redirectPage = localStorage.getItem("redirectAfterLogin");
-
-      fetch("/login", {
+      const res = await fetch("/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          username: form.username.value,
-          password: form.password.value
-        })
-      }).then(res => {
-        if (!res.ok) return alert("Login failed");
-        return res.json();
-      }).then(user => {
-        if (redirectPage) {
-          location.href = redirectPage;
-          localStorage.removeItem("redirectAfterLogin");
-        } else {
-          location.href = user.role === "provider" ? "patients.html" : "index.html";
-        }
+        body: JSON.stringify({ username, password })
       });
-    }
 
-    function toggleDarkMode() {
-      const isDark = document.body.classList.toggle("dark");
-      localStorage.setItem("darkMode", isDark ? "enabled" : "disabled");
-    }
+      if (res.ok) {
+        window.location.href = "index.html";
+      } else {
+        alert("Invalid login");
+      }
+    });
   </script>
 </body>
 </html>

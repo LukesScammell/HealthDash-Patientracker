@@ -14,6 +14,7 @@
   <div class="nav-actions">
     <span id="nav-user" style="margin-right: 1rem;"></span>
     <a id="login-btn" href="login.html" class="toggle-dark">🔐 Login</a>
+    <a id="register-btn" href="register.html" class="toggle-dark">📝 Register</a>
     <button id="logout-btn" onclick="logout()" class="toggle-dark" style="display:none;">🚪 Logout</button>
     <button onclick="toggleDarkMode()" class="toggle-dark">🌙</button>
   </div>
@@ -33,7 +34,7 @@
     fetch("/logout", { method: "POST" }).then(() => location.href = "login.html");
   }
 
-  fetch("/me")
+  fetch("/me", { credentials: "include", cache: "no-store" })
     .then(res => {
       if (!res.ok) throw new Error("Not logged in");
       return res.json();
@@ -42,6 +43,7 @@
       document.getElementById("nav-user").textContent = "👋 " + user.username;
       document.querySelectorAll(".nav-auth").forEach(el => el.style.display = "inline-block");
       document.getElementById("login-btn").style.display = "none";
+      document.getElementById("register-btn").style.display = "none";
       document.getElementById("logout-btn").style.display = "inline-block";
 
       if (user.role === "provider") {
@@ -52,6 +54,7 @@
       document.querySelectorAll(".nav-auth").forEach(el => el.remove());
       document.querySelectorAll(".nav-users").forEach(el => el.remove());
       document.getElementById("login-btn").style.display = "inline-block";
+      document.getElementById("register-btn").style.display = "inline-block";
       document.getElementById("logout-btn").style.display = "none";
     });
 </script>
