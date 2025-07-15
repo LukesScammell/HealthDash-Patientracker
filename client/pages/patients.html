@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Patient Management</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body onload="loadPatients(); generateMedicationDropdowns();">
+       <div id="nav-placeholder"></div>
+<script src="/js/script.js"></script>
+  <!-- ✅ PAGE TITLE -->
+  <h1>Patient Management</h1>
+
+  <!-- ✅ PATIENT FORM -->
+  <form onsubmit="addPatientForm(event)">
+    <label>First Name:</label>
+    <input type="text" name="first" required />
+
+    <label>Last Name:</label>
+    <input type="text" name="last" required />
+
+    <label>Disease:</label>
+    <input type="text" name="disease" required />
+
+    <label>Description:</label>
+    <textarea name="description" rows="3" placeholder="Symptoms or notes..."></textarea>
+
+    <label for="medCount">How many medications?</label>
+    <input type="number" id="medCount" name="medCount" value="1" min="1" max="5" onchange="generateMedicationDropdowns()" />
+
+
+    <div id="medicationDropdowns"></div>
+    <input type="hidden" name="medications" required />
+
+    <div id="selected-medication-preview"></div>
+
+    <button type="submit">➕ Add Patient</button>
+  </form>
+
+  <hr />
+
+  <!-- ✅ PATIENT TABLE -->
+  <h2>Patient List</h2>
+  <table id="patients-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>First</th>
+        <th>Last</th>
+        <th>Disease</th>
+        <th>Medications</th>
+        <th>Description</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+</body>
+</html>

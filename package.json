@@ -4,8 +4,9 @@
   "description": "I will be using php and css to format the javascript i wrote for assement 2 sdv",
   "main": "patient-management-system.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "start": "node server/server.js",
+  "dev": "nodemon server/server.js"
+},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/LukesScammell/website-upgrade-assesment-3.git"
@@ -23,5 +24,8 @@
     "express": "^5.1.0",
     "express-session": "^1.18.1",
     "mongoose": "^8.16.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
   }
 }

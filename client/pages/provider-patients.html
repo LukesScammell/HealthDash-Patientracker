@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>My Patients</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet"href="/css/style.css" />
+</head>
+<body>
+  <div id="nav-placeholder"></div>
+  <div class="container">
+    <h2>My Patients</h2>
+    <div id="patients-container">Loading...</div>
+  </div>
+
+  <script src="/js/script.js"></script>
+  <script>
+    fetch("/me")
+      .then(res => res.json())
+      .then(user => {
+        // Check if the user is a provider
+        if (user.role !== "provider") return location.href = "index.html";
+        
+        // Fetch only the patients assigned to the logged-in provider
+        return fetch("/patients/provider");
+      })
+      .then(res => res.json())
+      .then(patients => {
+        const container = document.getElementById("patients-container");
+
+        // If no patients assigned to this provider, display a message
+        if (patients.length === 0) {
+          container.innerHTML = "<p>No patients assigned to you.</p>";
+          return;
+        }
+
+        // Otherwise, display the patients assigned to this provider
+        const html = patients.map(p => `
+          <div class="card">
+            <h3>${p.first} ${p.last}</h3>
+            <p><strong>Disease:</strong> ${p.disease}</p>
+            <p><strong>Description:</strong> ${p.description}</p>
+            <button onclick="editPatient('${p._id}')">Edit</button>
+          </div>
+        `).join("");
+
+        container.innerHTML = html;
+      })
+      .catch(() => location.href = "login.html");
+
+    function editPatient(id) {
+      // Logic to edit patient
+    }
+  </script>
+</body>
+</html>
