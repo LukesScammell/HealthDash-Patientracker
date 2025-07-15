@@ -1,11 +1,21 @@
 // server/server.js
 const express = require("express");
-const session = require("express-session");
 const mongoose = require("mongoose");
+const session = require("express-session");
 const path = require("path");
+
 
 const logger = require("./middleware/logger");
 const errorHandler = require("./middleware/errorHandler");
+
+const patient = require("./models/patient-mongodb");
+const User = require("./models/user-mongodb");
+const provider = require("./models/provider-mongodb");
+
+const patientRoutes = require('./routes/patients-route');
+const authRoutes = require('./routes/auth-route');
+const providerRoutes = require("./routes/providers-route");
+const userRoutes = require('./routes/users-route');
 
 const app = express();
 const PORT = 3000;
@@ -34,46 +44,42 @@ app.use(session({
   }
 }));
 
-app.post("/logout", (req, res) => {
-  req.session.destroy(() => {
-    res.sendStatus(200);
-  });
-});
 
 // ===== Routes =====
-const patientRoutes = require("./routes/patients");
-const authRoutes = require("./routes/auth");
-const providerRoutes = require("./routes/providers");
-const userRoutes = require("./routes/users");
-
 app.use("/patients", patientRoutes);
 app.use("/", authRoutes);         // /me, /login, /register, /logout
 app.use("/providers", providerRoutes);
 app.use("/users", userRoutes);    // dev-only
 
-// ===== MongoDB Models for Connection Stats =====
-const Patient = require("./models/patient");
-const User = require("./models/user");
-const Provider = require("./models/provider");
 
-// ===== Connect to MongoDB =====
-mongoose.connect("mongodb://localhost:27017/healthdash")
-  .then(async () => {
+// ===== MongoDB Connect & Start Server =====
+async function startServer() {
+  try {
+    await mongoose.connect("mongodb://localhost:27017/healthdash");
     console.log("✅ Connected to MongoDB");
 
     const db = mongoose.connection.db;
     const collections = await db.listCollections().toArray();
     console.log("📂 Collections:", collections.map(c => c.name));
-    console.log(`👥 Users: ${await User.countDocuments()}`);
-    console.log(`🧑‍⚕️ Patients: ${await Patient.countDocuments()}`);
-    console.log(`🔬 Providers: ${await Provider.countDocuments()}`);
-  })
-  .catch(err => console.error("❌ MongoDB error:", err));
 
-// ===== Error Handler =====
-app.use(errorHandler);
+    const totalUsers = await User.countDocuments();
+    const adminUsers = await User.countDocuments({ role: "admin" });
+    const patients = await patient.countDocuments();
+    const providers = await provider.countDocuments();
 
-// ===== Start Server =====
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`✅ Server running at http://localhost:${PORT}`);
-});
+    console.log(`👥 Users: ${totalUsers}`);
+    console.log(`👑 Admins: ${adminUsers}`);
+    console.log(`🧑‍⚕️ Patients: ${patients}`);
+    console.log(`🔬 Providers: ${providers}`);
+
+    // Start Express server
+    app.listen(PORT, '0.0.0.0', () => {
+      console.log(`✅ Server running at http://localhost:${PORT}`);
+    });
+
+  } catch (err) {
+    console.error("❌ MongoDB error:", err);
+  }
+}
+
+startServer();

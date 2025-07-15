@@ -1,8 +1,13 @@
 const express = require("express");
 const router = express.Router();
 
-const Provider = require("../models/provider");
-const { authRequired } = require("../middleware/auth");
+
+// ✅ Correct
+const Provider = require('../models/provider-mongodb');
+
+
+const { authRequired, roleRequired } = require('../middleware/auth'); // ✅
+
 
 router.get("/", authRequired, async (req, res) => {
   const providers = await Provider.find();

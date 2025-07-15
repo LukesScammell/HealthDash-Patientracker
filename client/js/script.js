@@ -91,7 +91,7 @@ function generateOptionsHTML() {
   const meds = [
     { name: "Amoxicillin", img: "/images/amoxicillin.png" },
     { name: "Antihistamines", img: "/images/antihistamines.jpg" },
-    { name: "Antivirals", img: "/images/antivirals.png" },
+    { name: "Antivirals", img: "/images/antivirals.jpg" },
     { name: "Ibuprofen", img: "/images/ibuprofen.png" },
     { name: "Inhaler", img: "/images/inhaler.png" },
     { name: "Insulin", img: "/images/insulin.png" },
@@ -365,6 +365,16 @@ window.addEventListener("DOMContentLoaded", () => {
     .then(html => {
       document.getElementById("nav-placeholder").innerHTML = html;
 
+      
+      // ✅ Responsive nav toggle
+      const toggleBtn = document.querySelector(".nav-toggle");
+      const navExpand = document.getElementById("nav-drawer");
+      if (toggleBtn && navExpand) {
+        toggleBtn.addEventListener("click", () => {
+          navExpand.classList.toggle("show");
+        });
+      }
+
        // ✅ SETUP DARK MODE TOGGLE HERE
       const themeToggle = document.getElementById("theme-toggle");
       if (themeToggle) {
@@ -420,6 +430,9 @@ if (user.role === "provider") {
 
   // ❌ Remove patient-only links
   document.querySelectorAll(".nav-patient").forEach(el => el.remove());
+}
+if (user.role === "admin") {
+  document.querySelectorAll(".nav-admin").forEach(el => el.style.display = "inline-block");
 }
 
         })

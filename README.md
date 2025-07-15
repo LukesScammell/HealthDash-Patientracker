@@ -38,3 +38,6 @@ website-upgrade-assessment-3/
 ├── package.json
 ├── package-lock.json
 └── notes-things-to-add.text
+
+# how to run
+to run the website put : npm run dev

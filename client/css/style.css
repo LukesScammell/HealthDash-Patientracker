@@ -374,3 +374,57 @@ body.dark .select-options .option {
 body.dark .select-options .option:hover {
   background-color: #444;
 }
+/* === SLIDE-IN NAV (Drawer Style) === */
+@media (max-width: 768px) {
+  .nav-drawer {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 260px;
+    height: 100vh;
+    background-color: #04578e;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 2rem 1.5rem;
+    z-index: 9999;
+    transition: left 0.3s ease-in-out;
+  }
+
+  .nav-drawer.show {
+    left: 0;
+  }
+
+  .nav-drawer a,
+  .nav-drawer button,
+  .nav-drawer span {
+    color: white;
+    font-weight: 500;
+    background: none;
+    border: none;
+    text-align: left;
+    width: 100%;
+    padding: 0.5rem 0;
+    font-size: 1rem;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .nav-drawer a:hover,
+  .nav-drawer button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .nav-toggle {
+    display: block;
+  }
+}
+
+body.dark .nav-drawer {
+  background-color: #222;
+}
+
+body.dark .nav-drawer a,
+body.dark .nav-drawer button {
+  color: #eee;
+}

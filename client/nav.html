@@ -3,8 +3,8 @@
     <div class="nav-brand">HealthDash</div>
     <button class="nav-toggle" aria-label="Toggle menu">☰</button>
 
-    <div class="nav-expand" id="nav-expand">
-      <span id="nav-user">👤 Guest</span>
+    <div class="nav-drawer" id="nav-drawer">
+      <span id="nav-user" class="nav-auth">👤 Guest</span>
 
       <!-- Always visible -->
       <a href="/pages/index.html">Home</a>
@@ -21,6 +21,9 @@
       <a href="/pages/providers.html" class="nav-auth nav-provider" style="display:none;">Manage Patients</a>
       <a href="/pages/provider-patients.html" class="nav-auth nav-provider" style="display:none;">My Assigned Patients</a>
       <a href="/pages/users.html" class="nav-auth nav-provider nav-users" style="display:none;">All Users</a>
+
+      <!-- For logged-in admins-->
+       <a href="/pages/admin.html" class="nav-admin" style="display: none;">Admin Panel</a>
 
       <!-- Logged-in shared -->
       <button id="logout-btn" style="display:none;">Logout</button>
