@@ -7,8 +7,7 @@
   <link rel="stylesheet" href="/css/style.css"/>
 </head>
 <body onload="loadUsers()">
-  <div id="nav-placeholder"></div>
-<script src="/js/script.js" ></script>
+  <div id="nav-placeholder"></div> <!-- This is REQUIRED for nav injection -->
 
   <div class="container">
     <h2>Registered Users</h2>
@@ -67,6 +66,7 @@
     localStorage.setItem("darkMode", isDark ? "enabled" : "disabled");
   }
 </script>
-
+ <!-- The rest of your page -->
+  <script src="/js/script.js"></script>
 </body>
 </html>

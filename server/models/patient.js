@@ -4,10 +4,11 @@ const patientSchema = new mongoose.Schema({
   first: String,
   last: String,
   disease: String,
+  medications: [ { name: String, image: String } ],
   description: String,
-  medications: [{ name: String, image: String }],
-  providerUsername: String,
-  patientUsername: String
+  patientUsername: String,
+  providerUsername: String   // ✅ This is critical
 });
+
 
 module.exports = mongoose.model("patient", patientSchema);

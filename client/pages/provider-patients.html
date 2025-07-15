@@ -7,13 +7,12 @@
   <link rel="stylesheet"href="/css/style.css" />
 </head>
 <body>
-  <div id="nav-placeholder"></div>
+  <div id="nav-placeholder"></div> <!-- This is REQUIRED for nav injection -->
   <div class="container">
     <h2>My Patients</h2>
     <div id="patients-container">Loading...</div>
   </div>
-
-  <script src="/js/script.js"></script>
+  
   <script>
     fetch("/me")
       .then(res => res.json())
@@ -52,5 +51,7 @@
       // Logic to edit patient
     }
   </script>
+   <!-- The rest of your page -->
+  <script src="/js/script.js"></script>
 </body>
 </html>

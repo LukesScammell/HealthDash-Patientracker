@@ -1,8 +1,7 @@
-
-
-// 🌓 Dark Mode Setup + Nav Auth Display
+// 🌓 Apply saved or preferred system theme
 (function applySavedOrSystemTheme() {
   const saved = localStorage.getItem("darkMode");
+
   if (saved === "enabled") {
     document.body.classList.add("dark");
   } else if (saved === "disabled") {
@@ -18,16 +17,29 @@ function toggleDarkMode() {
   const isDark = document.body.classList.toggle("dark");
   localStorage.setItem("darkMode", isDark ? "enabled" : "disabled");
 
-  // Change icon based on the theme
-  const themeToggle = document.getElementById("theme-toggle");
-  themeToggle.textContent = isDark ? "☀️" : "🌙";
+  // Update icon
+  const toggleBtn = document.getElementById("theme-toggle");
+  if (toggleBtn) toggleBtn.textContent = isDark ? "☀️" : "🌙";
 }
 
 
 
 function logout() {
-  fetch("/logout", { method: "POST" }).then(() => location.href = "login.html");
+  fetch("/logout", { method: "POST" })
+    .then(() => {
+      window.location.href = "/pages/login.html";
+    });
 }
+const logoutBtn = document.getElementById("logout-btn");
+if (logoutBtn) {
+  logoutBtn.addEventListener("click", () => {
+    fetch("/logout", { method: "POST" })
+      .then(() => {
+        window.location.href = "/pages/login.html";
+      });
+  });
+}
+
 
 // Show nav links if logged in
 fetch("/me")
@@ -77,15 +89,15 @@ function toggleDropdown(selectElement) {
 
 function generateOptionsHTML() {
   const meds = [
-    { name: "Amoxicillin", img: "images/medications/amoxicillin.png" },
-    { name: "Antihistamines", img: "images/medications/antihistamines.jpg" },
-    { name: "Antivirals", img: "images/medications/antivirals.png" },
-    { name: "Ibuprofen", img: "images/medications/ibuprofen.png" },
-    { name: "Inhaler", img: "images/medications/inhaler.png" },
-    { name: "Insulin", img: "images/medications/insulin.png" },
-    { name: "Paracetamol", img: "images/medications/paracetamol.png" },
-    { name: "SSRI", img: "images/medications/ssri.jpg" },
-    { name: "Triptans", img: "images/medications/triptans.jpg" }
+    { name: "Amoxicillin", img: "/images/amoxicillin.png" },
+    { name: "Antihistamines", img: "/images/antihistamines.jpg" },
+    { name: "Antivirals", img: "/images/antivirals.png" },
+    { name: "Ibuprofen", img: "/images/ibuprofen.png" },
+    { name: "Inhaler", img: "/images/inhaler.png" },
+    { name: "Insulin", img: "/images/insulin.png" },
+    { name: "Paracetamol", img: "/images/paracetamol.png" },
+    { name: "SSRI", img: "/images/ssri.jpg" },
+    { name: "Triptans", img: "/images/triptans.jpg" }
   ];
 
   return meds.map(m => `
@@ -95,7 +107,6 @@ function generateOptionsHTML() {
     </div>
   `).join("");
 }
-
 document.addEventListener("click", (e) => {
   const clickedOption = e.target.closest(".option");
 
@@ -202,7 +213,7 @@ function loadPatients() {
   const tableBody = document.querySelector("#patients-table tbody");
   tableBody.innerHTML = "";
 
-  fetch("/patients")
+  fetch("/patients/provider")
     .then(res => res.json())
     .then(patients => {
       patients.forEach((patient, index) => {
@@ -345,111 +356,75 @@ function viewProvider(id) {
 
   alert(`👨‍⚕️ ${p.name}\nSpecialty: ${p.specialty}\nContact: ${p.contact}`);
 }
-// // Wait for nav to be loaded before running auth logic
-// window.addEventListener("DOMContentLoaded", () => {
-//   fetch("/nav.html")
-//     .then(res => res.text())
-//     .then(html => {
-//       document.getElementById("nav-placeholder").innerHTML = html;
 
-//       // Auth check after nav injection
-//       fetch("/me", { cache: "no-store" })
-//         .then(res => {
-//           if (!res.ok) throw new Error("Not logged in");
-//           return res.json();
-//         })
-//         .then(user => {
-//           document.getElementById("nav-user").textContent = "👋 " + user.username;
-//           document.querySelectorAll(".nav-auth").forEach(el => el.style.display = "inline-block");
-//           document.getElementById("login-btn").style.display = "none";
-//           document.getElementById("register-btn").style.display = "none";
-//           document.getElementById("logout-btn").style.display = "inline-block";
-
-//           if (user.role === "provider") {
-//             document.querySelectorAll(".nav-users").forEach(el => el.style.display = "inline-block");
-//           }
-//         })
-//         .catch(() => {
-//           document.querySelectorAll(".nav-auth").forEach(el => el.remove());
-//           document.querySelectorAll(".nav-users").forEach(el => el.remove());
-//           document.getElementById("login-btn").style.display = "inline-block";
-//           document.getElementById("register-btn").style.display = "inline-block";
-//           document.getElementById("logout-btn").style.display = "none";
-//         });
-//     });
-// });
 
 
 window.addEventListener("DOMContentLoaded", () => {
   fetch("/nav.html")
     .then(res => res.text())
     .then(html => {
-      // ✅ Run medication setup only on patients.html
-if (window.location.pathname.includes("patients.html")) {
-  const medCountInput = document.getElementById("medCount");
-  if (medCountInput) {
-    medCountInput.addEventListener("change", generateMedicationDropdowns);
-    generateMedicationDropdowns(); // trigger once on page load
-  }
-}
       document.getElementById("nav-placeholder").innerHTML = html;
 
-      // Nav behavior
-      const toggleBtn = document.querySelector(".nav-toggle");
-      const navExpand = document.getElementById("nav-expand");
-      const navbar = document.querySelector(".navbar");
+       // ✅ SETUP DARK MODE TOGGLE HERE
       const themeToggle = document.getElementById("theme-toggle");
-      const logoutBtn = document.getElementById("logout-btn");
-
-      if (toggleBtn && navExpand && navbar) {
-        toggleBtn.addEventListener("click", () => {
-          navExpand.classList.toggle("show");
-          navbar.classList.toggle("expanded");
-        });
-      }
-
-      // Setup dark mode toggle icon
       if (themeToggle) {
         themeToggle.addEventListener("click", toggleDarkMode);
 
         const saved = localStorage.getItem("darkMode");
         const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-        const darkOn = saved === "enabled" || (!saved && prefersDark);
-        themeToggle.textContent = darkOn ? "☀️" : "🌙";
+        const isDark = saved === "enabled" || (!saved && prefersDark);
+        themeToggle.textContent = isDark ? "☀️" : "🌙";
       }
 
+      // ✅ SETUP LOGOUT BUTTON HERE TOO
+      const logoutBtn = document.getElementById("logout-btn");
       if (logoutBtn) {
-        logoutBtn.addEventListener("click", logout);
+        logoutBtn.addEventListener("click", () => {
+          fetch("/logout", { method: "POST" })
+            .then(() => {
+              window.location.href = "/pages/login.html";
+            });
+        });
       }
 
-      // Auth check and page-specific loading
+      // ✅ Now nav is in the page, fetch the user role
       fetch("/me", { cache: "no-store" })
         .then(res => {
-          if (!res.ok) throw new Error("Not logged in");
+          if (!res.ok) throw new Error();
           return res.json();
         })
         .then(user => {
+          // Show username
           document.getElementById("nav-user").textContent = "👋 " + user.username;
+
+          // Show all authenticated elements
           document.querySelectorAll(".nav-auth").forEach(el => el.style.display = "inline-block");
+
+          // Hide login/register
           document.getElementById("login-btn").style.display = "none";
           document.getElementById("register-btn").style.display = "none";
           document.getElementById("logout-btn").style.display = "inline-block";
 
-          if (user.role === "patient") {
-         document.querySelectorAll(".nav-patient").forEach(el => el.style.display = "inline-block");
-          }
-        if (user.role === "provider") {
+          // ✅ Show only if patient
+         if (user.role === "patient") {
+        // ✅ Show patient-only links
+        document.querySelectorAll(".nav-patient").forEach(el => el.style.display = "inline-block");
+
+        // ❌ Remove provider-only links
+  document.querySelectorAll(".nav-provider").forEach(el => el.remove());
+}
+
+if (user.role === "provider") {
+  // ✅ Show provider-only links
   document.querySelectorAll(".nav-provider").forEach(el => el.style.display = "inline-block");
-    }
-          // ✅ Load page-specific data only after nav and auth complete
-          if (window.location.pathname.includes("patients.html") && typeof loadPatients === "function") {
-            loadPatients();
-          }
-          if (window.location.pathname.includes("providers.html") && typeof loadProviders === "function") {
-            loadProviders();
-          }
+
+  // ❌ Remove patient-only links
+  document.querySelectorAll(".nav-patient").forEach(el => el.remove());
+}
+
         })
         .catch(() => {
+          // Not logged in – remove protected links
           document.querySelectorAll(".nav-auth").forEach(el => el.remove());
           document.querySelectorAll(".nav-users").forEach(el => el.remove());
           document.getElementById("login-btn").style.display = "inline-block";
@@ -458,5 +433,3 @@ if (window.location.pathname.includes("patients.html")) {
         });
     });
 });
-
-

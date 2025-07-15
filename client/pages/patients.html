@@ -7,8 +7,23 @@
   <link rel="stylesheet" href="/css/style.css"/>
 </head>
 <body onload="loadPatients(); generateMedicationDropdowns();">
-       <div id="nav-placeholder"></div>
-<script src="/js/script.js"></script>
+  <script>
+    fetch("/me")
+      .then(res => {
+        if (!res.ok) throw new Error();
+        return res.json();
+      })
+      .then(user => {
+        if (user.role !== "provider") {
+          alert("Access denied. Providers only.");
+          window.location.href = "/pages/login.html";
+        }
+      })
+      .catch(() => window.location.href = "/pages/login.html");
+  </script>
+
+  <div id="nav-placeholder"></div>
+ 
   <!-- ✅ PAGE TITLE -->
   <h1>Patient Management</h1>
 
@@ -56,6 +71,7 @@
     </thead>
     <tbody></tbody>
   </table>
-
+ <!-- The rest of your page -->
+  <script src="/js/script.js"></script>
 </body>
 </html>

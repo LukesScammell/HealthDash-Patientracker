@@ -6,14 +6,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet"href="/css/style.css" />
 </head>
-<body onload="loadProviders()">
-<div id="nav-placeholder"></div>
-<script src="/js/script.js"></script>
+<body onload="loadProviders()"><body>
+  <script>
+    fetch("/me")
+      .then(res => {
+        if (!res.ok) throw new Error();
+        return res.json();
+      })
+      .then(user => {
+        if (user.role !== "provider") {
+          alert("Access denied. Providers only.");
+          window.location.href = "/pages/login.html";
+        }
+      })
+      .catch(() => window.location.href = "/pages/login.html");
+  </script>
+
+  <div id="nav-placeholder"></div>
 
   <h1>Health Providers</h1>
 
   <!-- Form and Table remain unchanged -->
   <!-- ... (keep your provider form and table markup) -->
-
+ <!-- The rest of your page -->
+  <script src="/js/script.js"></script>
 </body>
 </html>
