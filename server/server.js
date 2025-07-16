@@ -26,7 +26,7 @@ app.use(express.json());
 app.use(logger);
 
 // ✅ Serve all frontend assets (JS, CSS, nav.html, pages/*.html)
-app.use(express.static(path.join(__dirname, "../client")));
+app.use(express.static(path.join(__dirname, '../client')));
 
 // ✅ Redirect "/" to index.html inside /pages
 app.get("/", (req, res) => {

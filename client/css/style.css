@@ -100,13 +100,19 @@ body.dark .navbar {
 }
 
 .nav-links li a {
-  color: white;
+  display: inline-block;
   text-decoration: none;
   font-weight: 500;
-  padding: 0.5rem 0.75rem;
+  padding: 0.5rem 1rem;
   border-radius: 6px;
-  transition: background 0.2s ease;
-  display: block;
+  background-color: rgba(255, 255, 255, 0.15); /* Light button on blue bg */
+  color: white;
+  transition: background-color 0.2s ease;
+}
+
+.nav-links li a:hover,
+.nav-links li a.active {
+  background-color: rgba(255, 255, 255, 0.25);
 }
 
 .nav-links li a:hover,
@@ -115,12 +121,13 @@ body.dark .navbar {
 }
 
 body.dark .nav-links li a {
+  background-color: rgba(255, 255, 255, 0.08);
   color: #ddd;
 }
 
 body.dark .nav-links li a:hover,
 body.dark .nav-links li a.active {
-  background-color: #333;
+  background-color: rgba(255, 255, 255, 0.2);
 }
 
 .nav-actions {
@@ -239,7 +246,7 @@ body.dark th, body.dark td {
     display: flex;
     flex-direction: column;
     padding: 1rem;
-    background-color: #0078d4;
+    background-color: #444444;;
     border-radius: 8px;
     transition: background-color 0.3s ease;
   }
@@ -394,26 +401,27 @@ body.dark .select-options .option:hover {
   .nav-drawer.show {
     left: 0;
   }
+.nav-drawer a,
+.nav-drawer button {
+  display: block;
+  width: 100%;
+  font-weight: 500;
+  font-size: 1rem;
+  padding: 0.6rem 1rem;
+  text-align: left;
+  color: white;
+  background-color: #444444; /* Same as normal buttons */
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
 
-  .nav-drawer a,
-  .nav-drawer button,
-  .nav-drawer span {
-    color: white;
-    font-weight: 500;
-    background: none;
-    border: none;
-    text-align: left;
-    width: 100%;
-    padding: 0.5rem 0;
-    font-size: 1rem;
-    cursor: pointer;
-    text-decoration: none;
-  }
-
-  .nav-drawer a:hover,
-  .nav-drawer button:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-  }
+.nav-drawer a:hover,
+.nav-drawer button:hover {
+  background-color: #005fa3;
+}
 
   .nav-toggle {
     display: block;
@@ -427,4 +435,28 @@ body.dark .nav-drawer {
 body.dark .nav-drawer a,
 body.dark .nav-drawer button {
   color: #eee;
+}
+
+/* === Global Link Button Styling === */
+a {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  background-color: #0078d4;
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+a:hover {
+  background-color: #005fa3;
+}
+body.dark a {
+  background-color: #444;
+  color: #eee;
+}
+
+body.dark a:hover {
+  background-color: #666;
 }
