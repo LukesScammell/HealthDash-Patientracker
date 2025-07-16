@@ -2,10 +2,19 @@
 I will be using php and css to format the javascript i wrote for assement 2 sdv
 
 ## 🚀 Project Structure
-```bash
+```text
 website-upgrade-assessment-3/
 ├── client/                     # Frontend
-│   ├── images/                 # Static images
+│   ├── images/ 
+│   │   ├── amoxicillin.png     # Static images    
+│   │   ├── antihistamines.jpg                   
+│   │   ├── antivirals.jpg                   
+│   │   ├── ibuprofen.png                  
+│   │   ├── inhaler.png                  
+│   │   ├── insulin.png                 
+│   │   ├── paracetamol.png                  
+│   │   ├── ssri.jpg                   
+│   │   ├── triptans.jpg                           
 │   ├── pages/                  # HTML pages
 │   │   ├── forgot-password.html
 │   │   ├── index.html
@@ -37,10 +46,9 @@ website-upgrade-assessment-3/
 ├── package.json
 ├── package-lock.json
 └── notes-things-to-add.text
+```
 
-
-## ⚙️ How to Run
-
+### ⚙️ How to Run
 ```bash
 # 1. Clone the repo
 git clone <your‑repo‑url>
@@ -57,3 +65,15 @@ npm run dev
 
 # 5. Running on browser
 Open your browser at http://localhost:3000 (or whichever port you configured).
+```
+## 🖼️ Preview Images in README
+
+```markdown
+### Overview of Project Structure
+
+![client/images/amoxicillin.png](client/images/amoxicillin.png)
+
+### How Interface Looks in VS Code
+
+![VS Code preview of README](client/images/vscode-preview.png)
+```
