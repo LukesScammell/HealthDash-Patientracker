@@ -9,9 +9,12 @@ const userRoutes = require('./users-route');
 const patientRoutes = require('./patients-route');
 
 // Current logged-in user
-router.get("/me", (req, res) => {
+router.get("/me", async (req, res) => {
   if (!req.session.user) return res.status(401).send("Not logged in");
-  res.json(req.session.user); 
+  // Fetch latest user info from DB for safety
+  const user = await User.findById(req.session.user.id);
+  if (!user) return res.status(404).send("User not found");
+  res.json({ id: user._id, username: user.username, role: user.role });
 });
 
 // Login
@@ -20,15 +23,16 @@ router.post("/login", async (req, res) => {
 
   const user = await User.findOne({ username });
   console.log("Login attempt:", username);
-if (!user) {
-  console.log("❌ User not found");
-} else {
+  if (!user) {
+    console.log("❌ User not found");
+    return res.status(401).send("Invalid credentials");
+  }
   const match = await bcrypt.compare(password, user.password);
   console.log("Password match:", match);
-}
+  if (!match) return res.status(401).send("Invalid credentials");
 
-  req.session.user = { id: user._id, role: user.role };
- res.json({ message: "Login successful", role: user.role });
+  req.session.user = { id: user._id, username: user.username, role: user.role };
+  res.json({ message: "Login successful", role: user.role, username: user.username });
 });
 
 // Logout
@@ -41,8 +45,6 @@ router.post("/register", async (req, res) => {
   const { username, password, role } = req.body;
   if (!username || !password || !role) return res.status(400).send("Missing fields");
   if (!["patient", "provider", "admin"].includes(role)) return res.status(400).send("Invalid role");
-
-
 
   const exists = await User.findOne({ username });
   if (exists) return res.status(409).send("User already exists");

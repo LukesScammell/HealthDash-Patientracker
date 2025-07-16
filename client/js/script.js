@@ -45,13 +45,20 @@ if (logoutBtn) {
 fetch("/me")
   .then(res => res.json())
   .then(user => {
-    document.getElementById("nav-user").innerText = "👋 " + user.username;
+    const navUser = document.getElementById("nav-user");
+    if (user && user.username) {
+      navUser.innerText = "👋 " + user.username;
+    } else {
+      navUser.innerText = "👤 Guest";
+    }
     document.querySelectorAll(".nav-auth").forEach(el => el.style.display = "inline");
   })
   .catch(() => {
     document.querySelectorAll(".nav-auth").forEach(el => el.remove());
     const logoutBtn = document.querySelector("button[onclick='logout()']");
     if (logoutBtn) logoutBtn.style.display = "none";
+    const navUser = document.getElementById("nav-user");
+    if (navUser) navUser.innerText = "👤 Guest";
   });
 
 
@@ -404,8 +411,37 @@ window.addEventListener("DOMContentLoaded", () => {
           return res.json();
         })
         .then(user => {
-          // Show username
-          document.getElementById("nav-user").textContent = "👋 " + user.username;
+          const navUser = document.getElementById("nav-user");
+          // If patient, fetch their profile for full name
+          if (user && user.role === "patient") {
+            fetch("/patients/me", { cache: "no-store" })
+              .then(res => res.ok ? res.json() : null)
+              .then(profile => {
+                if (profile && profile.first && profile.last) {
+                  navUser.textContent = `👋 ${profile.first} ${profile.last}`;
+                } else if (user.username) {
+                  navUser.textContent = "👋 " + user.username;
+                } else {
+                  navUser.textContent = "👤 Guest";
+                }
+              });
+          } else if (user && user.role === "provider") {
+            fetch("/providers/me", { cache: "no-store" })
+              .then(res => res.ok ? res.json() : null)
+              .then(profile => {
+                if (profile && profile.name) {
+                  navUser.textContent = `👋 ${profile.name}`;
+                } else if (user.username) {
+                  navUser.textContent = "👋 " + user.username;
+                } else {
+                  navUser.textContent = "👤 Guest";
+                }
+              });
+          } else if (user && user.username) {
+            navUser.textContent = "👋 " + user.username;
+          } else {
+            navUser.textContent = "👤 Guest";
+          }
 
           // Show all authenticated elements
           document.querySelectorAll(".nav-auth").forEach(el => el.style.display = "inline-block");
@@ -416,25 +452,22 @@ window.addEventListener("DOMContentLoaded", () => {
           document.getElementById("logout-btn").style.display = "inline-block";
 
           // ✅ Show only if patient
-         if (user.role === "patient") {
-        // ✅ Show patient-only links
-        document.querySelectorAll(".nav-patient").forEach(el => el.style.display = "inline-block");
+          if (user.role === "patient") {
+            // ✅ Show patient-only links
+            document.querySelectorAll(".nav-patient").forEach(el => el.style.display = "inline-block");
+            // ❌ Remove provider-only links
+            document.querySelectorAll(".nav-provider").forEach(el => el.remove());
+          }
 
-        // ❌ Remove provider-only links
-  document.querySelectorAll(".nav-provider").forEach(el => el.remove());
-}
-
-if (user.role === "provider") {
-  // ✅ Show provider-only links
-  document.querySelectorAll(".nav-provider").forEach(el => el.style.display = "inline-block");
-
-  // ❌ Remove patient-only links
-  document.querySelectorAll(".nav-patient").forEach(el => el.remove());
-}
-if (user.role === "admin") {
-  document.querySelectorAll(".nav-admin").forEach(el => el.style.display = "inline-block");
-}
-
+          if (user.role === "provider") {
+            // ✅ Show provider-only links
+            document.querySelectorAll(".nav-provider").forEach(el => el.style.display = "inline-block");
+            // ❌ Remove patient-only links
+            document.querySelectorAll(".nav-patient").forEach(el => el.remove());
+          }
+          if (user.role === "admin") {
+            document.querySelectorAll(".nav-admin").forEach(el => el.style.display = "inline-block");
+          }
         })
         .catch(() => {
           // Not logged in – remove protected links
@@ -443,6 +476,8 @@ if (user.role === "admin") {
           document.getElementById("login-btn").style.display = "inline-block";
           document.getElementById("register-btn").style.display = "inline-block";
           document.getElementById("logout-btn").style.display = "none";
+          const navUser = document.getElementById("nav-user");
+          if (navUser) navUser.textContent = "👤 Guest";
         });
     });
 });

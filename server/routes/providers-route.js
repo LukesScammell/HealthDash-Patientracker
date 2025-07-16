@@ -1,12 +1,30 @@
+
 const express = require("express");
 const router = express.Router();
-
-
 // ✅ Correct
 const Provider = require('../models/provider-mongodb');
-
-
 const { authRequired, roleRequired } = require('../middleware/auth'); // ✅
+
+// Get current provider's profile (for nav display)
+router.get("/me", authRequired, roleRequired("provider"), async (req, res) => {
+  // Find provider by email, contact, or name, and return the name
+  const user = req.session.user;
+  let provider = null;
+  if (user && user.username) {
+    // Try to find by email
+    provider = await Provider.findOne({ email: user.username });
+    // If not found, try by contact
+    if (!provider) {
+      provider = await Provider.findOne({ contact: user.username });
+    }
+    // If still not found, try by name
+    if (!provider) {
+      provider = await Provider.findOne({ name: { $regex: new RegExp(`^${user.username}$`, 'i') } });
+    }
+  }
+  if (!provider) return res.status(404).send("Provider profile not found");
+  res.json({ name: provider.name });
+});
 
 
 router.get("/", authRequired, async (req, res) => {
