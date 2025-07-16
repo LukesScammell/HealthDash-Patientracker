@@ -4,6 +4,19 @@ const router = express.Router();
 const Patient = require("../models/patient-mongodb");
 const { authRequired, roleRequired } = require("../middleware/auth");
 
+// Add prescription to a patient (provider only)
+router.post("/:id/prescriptions", authRequired, roleRequired("provider"), async (req, res) => {
+  const { medication, dosage, instructions } = req.body;
+  const provider = req.session.user.username;
+  if (!medication || !dosage) return res.status(400).send("Missing medication or dosage");
+  const patient = await Patient.findById(req.params.id);
+  if (!patient) return res.status(404).send("Patient not found");
+  patient.prescriptions = patient.prescriptions || [];
+  patient.prescriptions.push({ medication, dosage, instructions, provider });
+  await patient.save();
+  res.status(201).json(patient.prescriptions[patient.prescriptions.length - 1]);
+});
+
 // All patients (admin/provider)
 router.get("/", authRequired, async (req, res) => {
   res.json(await Patient.find());

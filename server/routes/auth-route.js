@@ -14,6 +14,34 @@ router.get("/me", async (req, res) => {
   // Fetch latest user info from DB for safety
   const user = await User.findById(req.session.user.id);
   if (!user) return res.status(404).send("User not found");
+
+  // If patient, get first/last name from Patient collection
+  if (user.role === "patient") {
+    const patient = await Patient.findOne({ patientUsername: user.username });
+    if (patient) {
+      return res.json({
+        id: user._id,
+        username: user.username,
+        role: user.role,
+        first: patient.first,
+        last: patient.last
+      });
+    }
+  }
+  // If provider, get name from Provider collection
+  if (user.role === "provider") {
+    const Provider = require('../models/provider-mongodb');
+    const provider = await Provider.findOne({ username: user.username });
+    if (provider) {
+      return res.json({
+        id: user._id,
+        username: user.username,
+        role: user.role,
+        name: provider.name
+      });
+    }
+  }
+  // Default: just return user info
   res.json({ id: user._id, username: user.username, role: user.role });
 });
 

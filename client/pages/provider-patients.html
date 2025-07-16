@@ -7,7 +7,7 @@
   <link rel="stylesheet"href="/css/style.css" />
 </head>
 <body>
-  <div id="nav-placeholder"></div> <!-- This is REQUIRED for nav injection -->
+  <div id="nav-placeholder"></div>
   <div class="container">
     <h2>My Patients</h2>
     <div id="patients-container">Loading...</div>
@@ -16,16 +16,14 @@
   <script>
     fetch("/me")
       .then(res => res.json())
-      .then(user => {
+<body>
         // Check if the user is a provider
         if (user.role !== "provider") return location.href = "index.html";
         
         // Fetch only the patients assigned to the logged-in provider
         return fetch("/patients/provider");
       })
-      .then(res => res.json())
-      .then(patients => {
-        const container = document.getElementById("patients-container");
+  <!-- All logic handled in script.js -->
 
         // If no patients assigned to this provider, display a message
         if (patients.length === 0) {

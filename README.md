@@ -1,3 +1,15 @@
+#
+# 🧑‍💻 Seeded User Accounts
+
+The following user accounts are seeded for testing and demo purposes:
+
+| Email               | Password |
+|---------------------|----------|
+| alice@email.com     | test123  |
+| bob@email.com       | test123  |
+| luke@email.com      | test123  |
+| provider1@email.com | test123  |
+
 # HealthDash-Patientracker
 I will be using Html and css to format the javascript i wrote for assement 2 sdv
 

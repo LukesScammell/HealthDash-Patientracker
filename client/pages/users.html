@@ -6,8 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="/css/style.css"/>
 </head>
-<body onload="loadUsers()">
-  <div id="nav-placeholder"></div> <!-- This is REQUIRED for nav injection -->
+<body>
+  <div id="nav-placeholder"></div>
 
   <div class="container">
     <h2>Registered Users</h2>
@@ -23,50 +23,7 @@
     </table>
   </div>
 
-  <script>
-  function loadUsers() {
-    fetch("/me")
-      .then(res => {
-        if (!res.ok) throw new Error("Not logged in");
-        return res.json();
-      })
-      .then(user => {
-        // ✅ Only providers are allowed
-        if (user.role !== "provider") {
-          alert("You do not have access to this page.");
-          location.href = "index.html";
-          return;
-        }
-
-        // ✅ Load users if authorized
-        fetch("/users")
-          .then(res => res.json())
-          .then(users => {
-            const tbody = document.getElementById("user-list");
-            users.forEach(u => {
-              const row = document.createElement("tr");
-              row.innerHTML = `<td>${u.username}</td><td>${u.role}</td>`;
-              tbody.appendChild(row);
-            });
-          });
-      })
-      .catch(() => {
-        // ✅ Save redirect target and send to login
-        localStorage.setItem("redirectAfterLogin", window.location.pathname);
-        window.location.href = "login.html";
-      });
-  }
-
-  function logout() {
-    fetch("/logout", { method: "POST" }).then(() => location.href = "login.html");
-  }
-
-  function toggleDarkMode() {
-    const isDark = document.body.classList.toggle("dark");
-    localStorage.setItem("darkMode", isDark ? "enabled" : "disabled");
-  }
-</script>
- <!-- The rest of your page -->
+  <!-- All logic handled in script.js -->
   <script src="/js/script.js"></script>
 </body>
 </html>

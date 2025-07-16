@@ -7,7 +7,16 @@ const patientSchema = new mongoose.Schema({
   medications: [ { name: String, image: String } ],
   description: String,
   patientUsername: String,
-  providerUsername: String   // ✅ This is critical
+  providerUsername: String,   // ✅ This is critical
+  prescriptions: [
+    {
+      medication: String,
+      dosage: String,
+      instructions: String,
+      date: { type: Date, default: Date.now },
+      provider: String // provider name or id
+    }
+  ]
 });
 
 

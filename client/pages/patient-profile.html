@@ -5,9 +5,10 @@
   <title>My Profile</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="/css/style.css"/>
+  <script src="/js/script.js" defer></script>
 </head>
 <body>
-  <div id="nav-placeholder"></div> <!-- This is REQUIRED for nav injection -->
+  <div id="nav-placeholder"></div>
 
   
   <div class="container">
@@ -21,14 +22,25 @@
       if (user.role !== "patient") return location.href = "index.html";
       return fetch("/patients/me");
     })
-    .then(res => res.json())
+    .then(async res => {
+      if (!res.ok) {
+        const text = await res.text();
+        throw new Error(text);
+      }
+      return res.json();
+    })
     .then(async patient => {
       const container = document.getElementById("profile-content");
 
       // 🩺 Render medications
-      const meds = (patient.medications || []).map(m =>
-        `<li><img src="${m.image}" width="32"/> ${m.name}</li>`
-      ).join("") || "<li>No medications prescribed.</li>";
+      const meds = (patient.medications || []).map(m => {
+        // If image path does not start with /images/, add it
+        let imgSrc = m.image || "";
+        if (imgSrc && !imgSrc.startsWith("/images/")) {
+          imgSrc = "/images/" + imgSrc.replace(/^.*[\\/]/, "");
+        }
+        return `<li><img src="${imgSrc}" width="32"/> ${m.name}</li>`;
+      }).join("") || "<li>No medications prescribed.</li>";
 
       // 🧑‍⚕️ Fetch providers to match assigned one
       let providerHTML = `<p><strong>Provider:</strong> ${patient.providerUsername || "None assigned"}</p>`;
@@ -37,7 +49,7 @@
           const res = await fetch("/providers");
           const providers = await res.json();
           const match = providers.find(p =>
-            p.contact === patient.providerUsername || p.name === patient.providerUsername
+            p.username === patient.providerUsername
           );
 
           if (match) {
@@ -62,9 +74,10 @@
         <ul>${meds}</ul>
       `;
     })
-    .catch(() => location.href = "login.html");
-</script>
-<!-- The rest of your page -->
-  <script src="/js/script.js"></script>
+    .catch(err => {
+      const container = document.getElementById("profile-content");
+      container.innerHTML = `<p style="color:red;"><strong>Error loading profile:</strong> ${err?.message || "Profile not found or you are not authorized."}</p>`;
+    });
+  </script>
 </body>
 </html>

@@ -2,52 +2,24 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <title>Login</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="/css/style.css"/>
 </head>
 <body>
-<div id="nav-placeholder"></div> <!-- This is REQUIRED for nav injection -->
-
-
-  <form id="login-form">
-    <h2>Login</h2>
-
-    <label for="username">Email:</label>
-    <input type="email" id="username" name="username" required placeholder="you@example.com" />
-
-    <label for="password">Password:</label>
-    <input
-      type="password"
-      id="password"
-      name="password"
-      required
-      placeholder="Enter your password"
-    />
-
-    <button type="submit">Login</button>
-    <p><a href="forgot-password.html">Forgot password?</a></p>
-  </form>
-
-  <script>
-
-    document.getElementById("login-form").addEventListener("submit", async function (e) {
-      e.preventDefault();
-      const username = document.getElementById("username").value;
-      const password = document.getElementById("password").value;
-
-      const res = await fetch("/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password })
-      });
-
-      if (res.ok) {
-        window.location.href = "index.html";
-      } else {
-        alert("Invalid login");
-      }
-    });
-  </script>
+  <div id="nav-placeholder"></div>
+  <div class="container">
+    <form id="login-form">
+      <h2>Login</h2>
+      <label for="username">Email:</label>
+      <input type="email" id="username" name="username" required placeholder="you@example.com" />
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required placeholder="Enter your password" />
+      <button type="submit">Login</button>
+      <button type="button" onclick="window.location.href='forgot-password.html'">Forgot password?</button>
+    </form>
+  </div>
+  <!-- Login form handler is now in script.js -->
   <script src="/js/script.js"></script>
 </body>
 </html>

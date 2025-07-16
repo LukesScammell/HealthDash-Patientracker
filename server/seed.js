@@ -35,7 +35,10 @@ const patientSchema = new mongoose.Schema({
       image: String
     }
   ],
-  description: String
+  description: String,
+  patientUsername: String,
+  email: String,
+  providerUsername: String
 });
 const Patient = mongoose.model("patient", patientSchema);
 
@@ -52,25 +55,6 @@ const Provider = mongoose.model("provider", providerSchema);
 async function seedData() {
   // Users
   const userCount = await User.countDocuments();
-  if (userCount === 0) {
-    await User.create([
-      {
-        username: "admin@example.com",
-        password: await bcrypt.hash("Admin123!", 10),
-        role: "provider"
-      },
-      {
-        username: "doc@example.com",
-        password: await bcrypt.hash("Doc456!", 10),
-        role: "provider"
-      }
-    ]);
-    console.log("👥 Seeded users");
-  } else {
-    console.log("👥 Users already exist. Skipping...");
-  }
-
-  // Patients
   const patientCount = await Patient.countDocuments();
   if (patientCount === 0) {
     await Patient.create([
@@ -81,7 +65,10 @@ async function seedData() {
         medications: [
           { name: "Inhaler", image: "images/medications/inhaler.png" }
         ],
-        description: "Mild exercise-induced asthma"
+        description: "Mild exercise-induced asthma",
+        patientUsername: "alice@email.com",
+        email: "alice@email.com",
+        providerUsername: "provider1@email.com"
       },
       {
         first: "Bob",
@@ -90,7 +77,20 @@ async function seedData() {
         medications: [
           { name: "Insulin", image: "images/medications/insulin.png" }
         ],
-        description: "Daily insulin required"
+        description: "Daily insulin required",
+        patientUsername: "bob@email.com",
+        email: "bob@email.com",
+        providerUsername: "provider1@email.com"
+      },
+      {
+        first: "Luke",
+        last: "Scammell",
+        disease: "ADHD",
+        medications: [],
+        description: "ADHD",
+        patientUsername: "luke@email.com",
+        email: "luke@email.com",
+        providerUsername: "provider1@email.com"
       }
     ]);
     console.log("🧑‍⚕️ Seeded patients");

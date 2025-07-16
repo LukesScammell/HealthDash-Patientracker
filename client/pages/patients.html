@@ -6,52 +6,39 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="/css/style.css"/>
 </head>
-<body onload="loadPatients(); generateMedicationDropdowns();">
-  <script>
-    fetch("/me")
-      .then(res => {
-        if (!res.ok) throw new Error();
-        return res.json();
-      })
-      .then(user => {
-        if (user.role !== "provider") {
-          alert("Access denied. Providers only.");
-          window.location.href = "/pages/login.html";
-        }
-      })
-      .catch(() => window.location.href = "/pages/login.html");
-  </script>
+<body>
+  <!-- Access control is now handled in script.js -->
 
   <div id="nav-placeholder"></div>
  
   <!-- ✅ PAGE TITLE -->
   <h1>Patient Management</h1>
 
-  <!-- ✅ PATIENT FORM -->
-  <form onsubmit="addPatientForm(event)">
-    <label>First Name:</label>
-    <input type="text" name="first" required />
 
-    <label>Last Name:</label>
-    <input type="text" name="last" required />
-
-    <label>Disease:</label>
-    <input type="text" name="disease" required />
-
-    <label>Description:</label>
-    <textarea name="description" rows="3" placeholder="Symptoms or notes..."></textarea>
-
-    <label for="medCount">How many medications?</label>
-    <input type="number" id="medCount" name="medCount" value="1" min="1" max="5" onchange="generateMedicationDropdowns()" />
-
-
-    <div id="medicationDropdowns"></div>
-    <input type="hidden" name="medications" required />
-
-    <div id="selected-medication-preview"></div>
-
-    <button type="submit">➕ Add Patient</button>
-  </form>
+  <!-- ✅ PRESCRIPTION MODAL -->
+  <div id="prescription-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5); align-items:center; justify-content:center;">
+    <div style="background:#fff; padding:2em; border-radius:8px; min-width:300px; position:relative;">
+      <button onclick="closePrescriptionModal()" style="position:absolute; top:8px; right:8px;">✖</button>
+      <h3>Prescribe Medication</h3>
+      <form id="prescription-form">
+        <input type="hidden" id="prescription-patient-id" />
+        <label>Medication:</label>
+        <div class="custom-select-wrapper">
+          <div class="custom-select" id="prescription-medication-select" onclick="toggleDropdown(this)">
+            <div class="selected-option">Select medication</div>
+            <div class="select-options hidden">
+              <!-- options will be injected here -->
+            </div>
+          </div>
+        </div>
+        <label>Dosage:</label>
+        <input type="text" id="prescription-dosage" required />
+        <label>Instructions:</label>
+        <textarea id="prescription-instructions" rows="2"></textarea>
+        <button type="submit">Add Prescription</button>
+      </form>
+    </div>
+  </div>
 
   <hr />
 
@@ -66,6 +53,7 @@
         <th>Disease</th>
         <th>Medications</th>
         <th>Description</th>
+        <th>Prescriptions</th>
         <th>Actions</th>
       </tr>
     </thead>
