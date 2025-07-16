@@ -3,7 +3,7 @@ I will be using php and css to format the javascript i wrote for assement 2 sdv
 
 ## 🚀 Project Structure
 ```text
-website-upgrade-assessment-3/
+HealthDash-Patientracker/
 ├── client/                     # Frontend
 │   ├── images/ 
 │   │   ├── amoxicillin.png     # Static images    
@@ -65,15 +65,4 @@ npm run dev
 
 # 5. Running on browser
 Open your browser at http://localhost:3000 (or whichever port you configured).
-```
-## 🖼️ Preview Images in README
-
-```markdown
-### Overview of Project Structure
-
-![client/images/amoxicillin.png](client/images/amoxicillin.png)
-
-### How Interface Looks in VS Code
-
-![VS Code preview of README](client/images/vscode-preview.png)
 ```
