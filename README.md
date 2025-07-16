@@ -1,5 +1,5 @@
-# website-upgrade-assesment-3
-I will be using php and css to format the javascript i wrote for assement 2 sdv
+# HealthDash-Patientracker
+I will be using Html and css to format the javascript i wrote for assement 2 sdv
 
 ## 🚀 Project Structure
 ```text
@@ -52,7 +52,7 @@ HealthDash-Patientracker/
 ```bash
 # 1. Clone the repo
 git clone <your‑repo‑url>
-cd website-upgrade-assessment‑3
+cd HealthDash-Patientracker
 
 # 2. Install dependencies
 npm install
