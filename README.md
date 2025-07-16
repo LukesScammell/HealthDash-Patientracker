@@ -66,3 +66,4 @@ npm run dev
 # 5. Running on browser
 Open your browser at http://localhost:3000 (or whichever port you configured).
 ```
+![Index-image](<README images/Index-image.png>)
