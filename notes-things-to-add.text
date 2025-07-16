@@ -1,2 +1,4 @@
-Add a feature where the patient can request a change with thier medications and it will send a request to a page where only the provider that is assigned to the patient can see,
+1- Add a feature where the patient can request a change with thier medications and it will send a request to a page where only the provider that is assigned to the patient can see,
 And also add a feature to allow the provider to edit the patient and it will update on the patients profile and the data.
+2- Making the "user" show the providors name or the patients name
+3- implement the patient prescription feature 
