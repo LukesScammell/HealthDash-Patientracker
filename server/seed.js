@@ -63,7 +63,7 @@ async function seedData() {
         last: "Nguyen",
         disease: "Asthma",
         medications: [
-          { name: "Inhaler", image: "images/medications/inhaler.png" }
+          { name: "Inhaler", image: "/images/inhaler.png" }
         ],
         description: "Mild exercise-induced asthma",
         patientUsername: "alice@email.com",
@@ -75,7 +75,7 @@ async function seedData() {
         last: "Lee",
         disease: "Diabetes",
         medications: [
-          { name: "Insulin", image: "images/medications/insulin.png" }
+          { name: "Insulin", image: "/images/insulin.png" }
         ],
         description: "Daily insulin required",
         patientUsername: "bob@email.com",

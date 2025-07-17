@@ -64,6 +64,14 @@
         }
       }
 
+      // Render prescriptions
+      let prescriptionsHTML = "<li>No prescriptions added.</li>";
+      if (patient.prescriptions && patient.prescriptions.length > 0) {
+        prescriptionsHTML = patient.prescriptions.map(p =>
+          `<li><strong>${p.medication}</strong> - ${p.dosage}${p.instructions ? ` (${p.instructions})` : ""}</li>`
+        ).join("");
+      }
+
       // 👤 Fill the profile
       container.innerHTML = `
         <p><strong>Name:</strong> ${patient.first} ${patient.last}</p>
@@ -72,6 +80,8 @@
         ${providerHTML}
         <p><strong>Prescribed Medications:</strong></p>
         <ul>${meds}</ul>
+        <p><strong>Prescriptions:</strong></p>
+        <ul>${prescriptionsHTML}</ul>
       `;
     })
     .catch(err => {

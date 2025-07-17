@@ -13,6 +13,28 @@ router.post("/:id/prescriptions", authRequired, roleRequired("provider"), async 
   if (!patient) return res.status(404).send("Patient not found");
   patient.prescriptions = patient.prescriptions || [];
   patient.prescriptions.push({ medication, dosage, instructions, provider });
+
+  // Add medication to medications array if not already present
+  patient.medications = patient.medications || [];
+  const alreadyHasMed = patient.medications.some(m => m.name === medication);
+  if (!alreadyHasMed) {
+    // Try to find image for medication
+    let image = "";
+    const medImages = {
+      "Ibuprofen": "/images/ibuprofen.png",
+      "Inhaler": "/images/inhaler.png",
+      "Insulin": "/images/insulin.png",
+      "Antivirals": "/images/antivirals.jpg",
+      "Amoxicillin": "/images/amoxicillin.png",
+      "Antihistamines": "/images/antihistamines.jpg",
+      "Paracetamol": "/images/paracetamol.png",
+      "SSRI": "/images/ssri.jpg",
+      "Triptans": "/images/triptans.jpg"
+    };
+    image = medImages[medication] || "";
+    patient.medications.push({ name: medication, image });
+  }
+
   await patient.save();
   res.status(201).json(patient.prescriptions[patient.prescriptions.length - 1]);
 });
