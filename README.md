@@ -21,48 +21,6 @@ I will be using Html and css to format the javascript i wrote for assement 2 sdv
 ```text
 HealthDash-Patientracker/
 ├── client/                     # Frontend
-│   ├── images/ 
-│   │   ├── amoxicillin.png     # Static images    
-│   │   ├── antihistamines.jpg                   
-│   │   ├── antivirals.jpg                   
-│   │   ├── ibuprofen.png                  
-│   │   ├── inhaler.png                  
-│   │   ├── insulin.png                 
-│   │   ├── paracetamol.png                  
-│   │   ├── ssri.jpg                   
-│   │   ├── triptans.jpg                           
-│   ├── pages/                  # HTML pages
-│   │   ├── forgot-password.html
-│   │   ├── index.html
-│   │   ├── login.html
-│   │   ├── nav.html
-│   │   ├── patient-profile.html
-│   │   ├── patients.html
-│   │   ├── provider-patients.html
-│   │   ├── providers.html
-│   │   ├── register.html
-│   │   └── users.html
-│   ├── css/
-│   │   └── style.css
-│   ├── js/
-│   │   └── script.js
-│   └── assets/                 # Fonts, icons, etc.
-├── server/                     # Backend
-│   ├── data/
-│   │   ├── patients.json
-│   │   ├── providers.json
-│   │   └── users.json
-│   ├── routes/                 # (Optional) route handlers
-│   ├── seed/                   # Seed scripts
-│   │   ├── seed.js             # MongoDB seed script
-│   │   └── print-patient-usernames.js # Utility to print patient usernames
-│   └── server.js               # Main Express server
-│   └── public/                 # Served static assets (if needed)
-│       └── (optional symlink to /client for Express.static)
-├── LICENSE
-```text
-HealthDash-Patientracker/
-├── client/                     # Frontend
 │   ├── images/                 # Static images
 │   │   ├── amoxicillin.png
 │   │   ├── antihistamines.jpg
@@ -104,3 +62,4 @@ HealthDash-Patientracker/
 │   │   └── seed-admin.js               # (If present) Admin seeder/utility
 │   └── server.js               # Main Express server
 ```
+```text
