@@ -1,4 +1,8 @@
 #
+# 📝 About This Project
+
+This project was initially developed using ChatGPT in the browser to generate some of the website's foundational code and structure. Later, development was transitioned to GitHub Copilot in Visual Studio Code, which made adding new features, fixing bugs, and iterating on the design much easier and faster. Copilot's integration with VS Code provided a more streamlined workflow and improved productivity throughout the build process.
+#
 # 🧑‍💻 Seeded User Accounts
 
 The following user accounts are seeded for testing and demo purposes:
