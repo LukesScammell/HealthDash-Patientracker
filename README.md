@@ -62,4 +62,19 @@ HealthDash-Patientracker/
 │   │   └── seed-admin.js               # (If present) Admin seeder/utility
 │   └── server.js               # Main Express server
 ```
-```text
+
+## 📄 Pages Overview
+
+| Page                      | Path                        | Description  | Page Image|                               
+|---------------------------|-----------------------------|----------|-----------------|
+| Home                      | /pages/index.html           | Landing page, general info                  | ![Index](README-images/Index-image.png)        |
+| Login                     | /pages/login.html           | User login form                             | ![Login](README-images/Login-image.png)        |
+| Register                  | /pages/register.html        | New user registration                       | ![Register](README-images/Register-image.png)  |
+| Forgot Password           | /pages/forgot-password.html | Password reset form                         |                                                |
+| Users                     | /pages/users.html           | User management (admin)                     |                                                |
+| Patients                  | /pages/patients.html        | Patient list (admin/provider)               |                                                |
+| Patient Profile           | /pages/patient-profile.html | Patient's personal profile & prescriptions  |                                                |
+| Providers                 | /pages/providers.html       | Provider list (admin)                       |                                                |
+| Provider Patients         | /pages/provider-patients.html| Provider's assigned patients               |                                                |
+| Navigation                | /nav.html                   | Navigation bar (included in all pages)      |                                                |
+
