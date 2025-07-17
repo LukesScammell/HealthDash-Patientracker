@@ -1,6 +1,6 @@
 // Usage: node server/seed-patients.js
 const mongoose = require('mongoose');
-const Patient = require('./models/patient-mongodb');
+const Patient = require('../models/patient-mongodb');
 
 mongoose.connect('mongodb://localhost:27017/healthdash', { useNewUrlParser: true, useUnifiedTopology: true });
 

@@ -1,6 +1,6 @@
 // Print all patient usernames in MongoDB
 const mongoose = require('mongoose');
-const Patient = require('./models/patient-mongodb');
+const Patient = require('../models/patient-mongodb');
 
 async function printPatientUsernames() {
   await mongoose.connect('mongodb://localhost:27017/healthdash');
